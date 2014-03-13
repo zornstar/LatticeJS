@@ -223,10 +223,10 @@ function init() {
         var rPlane = new THREE.Geometry();
 	rPlane.applyMatrix( new THREE.Matrix4().makeTranslation( 0, 0, 0 ) );
 
-	rPlane.vertices.push( vertices[1] );
-        rPlane.vertices.push( vertices[4] );
-        rPlane.vertices.push( vertices[8] );
-        rPlane.vertices.push( vertices[9] );
+	rPlane.vertices.push( vertices[4] );
+        rPlane.vertices.push( vertices[1] );
+        rPlane.vertices.push( vertices[6] );
+        rPlane.vertices.push( vertices[7] );
         rPlane.faces.push( new THREE.Face3( 0, 1, 2 ) );
         rPlane.faces.push( new THREE.Face3( 2, 3, 0 ) );
         rPlane.computeBoundingSphere();
