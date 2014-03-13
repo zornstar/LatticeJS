@@ -260,12 +260,6 @@ function init() {
 		side: THREE.DoubleSide,
 		transparent: false
 	} );
-
-
-    active_planes = [false, false, false, false];
-    
-	
-
 	
     cPlaneMesh = new THREE.Mesh(cPlane, cMaterial );
     scene.add( cPlaneMesh );
@@ -320,7 +314,7 @@ function init() {
         else scene.remove(rPlaneMesh);
     });
     var axisVisible = gui.add( parameters, 'axisVisible' ).name('Axis').listen();
-	rPlaneVisible.onChange(function(value) 
+	axisVisible.onChange(function(value) 
 	{   //c Plane
     
     });
