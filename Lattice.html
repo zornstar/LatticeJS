@@ -222,17 +222,20 @@ function init() {
     
     var cMaterial = new THREE.MeshBasicMaterial( {
 		color: cPlaneColor,
-		shading: THREE.FlatShading
+		shading: THREE.FlatShading,
+		side: THREE.DoubleSide
 	} );
 
     var aMaterial = new THREE.MeshBasicMaterial( {
 		color: aPlaneColor,
 		shading: THREE.FlatShading,
+		side: THREE.DoubleSide
 	} );
 	
     var mMaterial = new THREE.MeshBasicMaterial( {
 		color: mPlaneColor,
 		shading: THREE.FlatShading,
+		side: THREE.DoubleSide
 	} );
 
 
