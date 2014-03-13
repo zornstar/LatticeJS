@@ -210,11 +210,11 @@ function init() {
         var mPlane = new THREE.Geometry();
 	mPlane.applyMatrix( new THREE.Matrix4().makeTranslation( 0, 0, 0 ) );
 
-	mPlane.vertices.push( vertices[2] );
-        mPlane.vertices.push( vertices[3] );
+	mPlane.vertices.push( vertices[4] );
+        mPlane.vertices.push( vertices[5] );
         mPlane.vertices.push( vertices[7] );
         mPlane.vertices.push( vertices[8] );
-        mPlane.faces.push( new THREE.Face4( 0, 1, 2 ) );
+        mPlane.faces.push( new THREE.Face3( 0, 1, 2 ) );
         mPlane.faces.push( new THREE.Face3( 1, 2, 3 ) );
         mPlane.computeBoundingSphere();
     
