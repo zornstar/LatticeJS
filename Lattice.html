@@ -160,14 +160,15 @@ function init() {
 		polygonOffset: true,
 		polygonOffsetFactor: 1,
 		polygonOffsetUnits: 1,
-		transparent: true
+		transparent: true,
+		opacity: .5
 	} );
 	// mesh
 	var LatticeMesh = new THREE.Mesh( Lattice, LatticeMaterial );
 	scene.add( LatticeMesh );
 
 	// helper
-	egh = new THREE.EdgesHelper( mesh, 0xFFFFFF );
+	egh = new THREE.EdgesHelper( LatticeMesh, 0xFFFFFF );
 	egh.material.transparent = true;
 	egh.material.linewidth = 2;
 	scene.add( egh );
@@ -176,7 +177,7 @@ function init() {
 
 	//c plane
 	var cPlaneColor = new THREE.Color( 0xFF0000 );       
-    var cPlane = new THREE.Geometry();
+    	var cPlane = new THREE.Geometry();
 	cPlane.applyMatrix( new THREE.Matrix4().makeTranslation( 0, 0, 0 ) );
 
 	cPlane.vertices.push( vertices[0] );
@@ -197,7 +198,7 @@ function init() {
         cPlane.faces.push( new THREE.Face3( 0, 4, 5) );
         cPlane.computeBoundingSphere();
 
-        //c plane
+        //a plane
 	var aPlaneColor = new THREE.Color( 0x00FF00 );       
         var aPlane = new THREE.Geometry();
 	aPlane.applyMatrix( new THREE.Matrix4().makeTranslation( 0, 0, 0 ) );
@@ -224,10 +225,6 @@ function init() {
     var aMaterial = new THREE.MeshBasicMaterial( {
 		color: aPlaneColor,
 		shading: THREE.FlatShading,
-		polygonOffset: true,
-		polygonOffsetFactor: 1,
-		polygonOffsetUnits: 1,
-        opacity: 0.5
 	} );
 	
 
@@ -280,7 +277,7 @@ function init() {
     
     });
     gui.add( parameters, 'reset' ).name("Reset Cube Parameters");
-	gui.open();
+    gui.open();
 }
 
 function animate() {
