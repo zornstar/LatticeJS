@@ -217,6 +217,19 @@ function init() {
         mPlane.faces.push( new THREE.Face3( 0, 1, 2 ) );
         mPlane.faces.push( new THREE.Face3( 2, 3, 0 ) );
         mPlane.computeBoundingSphere();
+        
+        //r plane
+	var rPlaneColor = new THREE.Color( 0xFFFF00 );       
+        var rPlane = new THREE.Geometry();
+	rPlane.applyMatrix( new THREE.Matrix4().makeTranslation( 0, 0, 0 ) );
+
+	rPlane.vertices.push( vertices[1] );
+        rPlane.vertices.push( vertices[4] );
+        rPlane.vertices.push( vertices[8] );
+        rPlane.vertices.push( vertices[9] );
+        rPlane.faces.push( new THREE.Face3( 0, 1, 2 ) );
+        rPlane.faces.push( new THREE.Face3( 2, 3, 0 ) );
+        rPlane.computeBoundingSphere();
     
 
     
@@ -237,6 +250,12 @@ function init() {
 		shading: THREE.FlatShading,
 		side: THREE.DoubleSide
 	} );
+	
+   var rMaterial = new THREE.MeshBasicMaterial( {
+		color: rPlaneColor,
+		shading: THREE.FlatShading,
+		side: THREE.DoubleSide
+	} );
 
 
     active_planes = [false, false, false, false];
@@ -252,6 +271,9 @@ function init() {
     
     var mPlaneMesh = new THREE.Mesh(mPlane, mMaterial );
     scene.add( mPlaneMesh );
+    
+    var rPlaneMesh = new THREE.Mesh(rPlane, rMaterial );
+    scene.add( rPlaneMesh );
 
     //setup GUI
     gui = new dat.GUI();
