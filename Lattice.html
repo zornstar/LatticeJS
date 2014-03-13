@@ -102,7 +102,7 @@ THREE.EdgesHelper.prototype = Object.create( THREE.Line.prototype );
         
 var gui, parameters;
 var renderer, scene, camera, controls;
-var active_planes;
+var aPlaneMesh, cPlaneMesh, mPlaneMesh, rPlaneMesh;
 var egh;
 
 init();
@@ -267,56 +267,64 @@ function init() {
 	
 
 	
-    var cPlaneMesh = new THREE.Mesh(cPlane, cMaterial );
+    cPlaneMesh = new THREE.Mesh(cPlane, cMaterial );
     scene.add( cPlaneMesh );
 
-    var aPlaneMesh = new THREE.Mesh(aPlane, aMaterial );
+    aPlaneMesh = new THREE.Mesh(aPlane, aMaterial );
     scene.add( aPlaneMesh );
     
-    var mPlaneMesh = new THREE.Mesh(mPlane, mMaterial );
+    mPlaneMesh = new THREE.Mesh(mPlane, mMaterial );
     scene.add( mPlaneMesh );
     
-    var rPlaneMesh = new THREE.Mesh(rPlane, rMaterial );
+    rPlaneMesh = new THREE.Mesh(rPlane, rMaterial );
     scene.add( rPlaneMesh );
 
     //setup GUI
     gui = new dat.GUI();
     parameters = 
 	{
-	cPlaneVisible: false,
-        aPlaneVisible: false,
-        mPlaneVisible: false,
-        rPlaneVisible: false,
+	cPlaneVisible: true,
+        aPlaneVisible: true,
+        mPlaneVisible: true,
+        rPlaneVisible: true,
         axisVisible: false,
 		reset: function() { resetLattice() }
 	};
     var cPlaneVisible = gui.add( parameters, 'cPlaneVisible' ).name('C Plane').listen();
 	cPlaneVisible.onChange(function(value) 
 	{   //c Plane
-        cPlaneMesh.material.transparent = value;
+        if(value) scene.add( cPlaneMesh );
+        
+        else scene.remove(cPlaneMesh);
         
     });
      var aPlaneVisible = gui.add( parameters, 'aPlaneVisible' ).name('A Plane').listen();
 	aPlaneVisible.onChange(function(value) 
 	{   //c Plane
-    	aPlaneMesh.material.transparent = value;
+    	if(value) scene.add( aPlaneMesh );
+        
+        else scene.remove(aPlaneMesh);
     });
      var mPlaneVisible = gui.add( parameters, 'mPlaneVisible' ).name('M Plane').listen();
 	mPlaneVisible.onChange(function(value) 
 	{   //c Plane
-    	mPlaneMesh.material.transparent = value;
+    	if(value) scene.add( mPlaneMesh );
+        
+        else scene.remove(mPlaneMesh);
     });
     var rPlaneVisible = gui.add( parameters, 'rPlaneVisible' ).name('R Plane').listen();
 	rPlaneVisible.onChange(function(value) 
 	{   //c Plane
-    	rPlaneMesh.material.transparent = value;
+    	if(value) scene.add( rPlaneMesh );
+        
+        else scene.remove(rPlaneMesh);
     });
     var axisVisible = gui.add( parameters, 'axisVisible' ).name('Axis').listen();
 	rPlaneVisible.onChange(function(value) 
 	{   //c Plane
     
     });
-    gui.add( parameters, 'reset' ).name("Reset Cube Parameters");
+    gui.add( parameters, 'reset' ).name("Reset");
     gui.open();
 }
 
