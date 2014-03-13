@@ -201,12 +201,11 @@ function init() {
         aPlane.vertices.push( vertices[3] );
         aPlane.vertices.push( vertices[7] );
         aPlane.vertices.push( vertices[9] );
-        aPlane.faces.push( new THREE.Face3( 0, 1, 2 ) );
-        aPlane.faces.push( new THREE.Face3( 0, 2, 3) );
+        aPlane.faces.push( new THREE.Face4( 0, 1, 2, 3 ) );
         aPlane.computeBoundingSphere();
         
         //m plane
-	var mPlaneColor = new THREE.Color( 0x0000FF );       
+	var mPlaneColor = new THREE.Color( 0x00FF00 );       
         var mPlane = new THREE.Geometry();
 	mPlane.applyMatrix( new THREE.Matrix4().makeTranslation( 0, 0, 0 ) );
 
@@ -214,8 +213,7 @@ function init() {
         mPlane.vertices.push( vertices[2] );
         mPlane.vertices.push( vertices[7] );
         mPlane.vertices.push( vertices[8] );
-        mPlane.faces.push( new THREE.Face3( 0, 1, 2 ) );
-        mPlane.faces.push( new THREE.Face3( 0, 2, 3) );
+        mPlane.faces.push( new THREE.Face4( 0, 1, 2 3) );
         mPlane.computeBoundingSphere();
     
 
