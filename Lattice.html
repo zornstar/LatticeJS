@@ -223,8 +223,8 @@ function init() {
         var rPlane = new THREE.Geometry();
 	rPlane.applyMatrix( new THREE.Matrix4().makeTranslation( 0, 0, 0 ) );
 
-	rPlane.vertices.push( vertices[1] );
-        rPlane.vertices.push( vertices[4] );
+	rPlane.vertices.push( vertices[3] );
+        rPlane.vertices.push( vertices[2] );
         rPlane.vertices.push( vertices[8] );
         rPlane.vertices.push( vertices[9] );
         rPlane.faces.push( new THREE.Face3( 0, 1, 2 ) );
