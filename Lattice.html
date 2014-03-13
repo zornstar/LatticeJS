@@ -201,7 +201,8 @@ function init() {
         aPlane.vertices.push( vertices[3] );
         aPlane.vertices.push( vertices[7] );
         aPlane.vertices.push( vertices[9] );
-        aPlane.faces.push( new THREE.Face4( 0, 1, 2, 3 ) );
+        aPlane.faces.push( new THREE.Face3( 0, 1, 2 ) );
+        aPlane.faces.push( new THREE.Face3( 1, 2, 3 ) );
         aPlane.computeBoundingSphere();
         
         //m plane
@@ -213,7 +214,8 @@ function init() {
         mPlane.vertices.push( vertices[2] );
         mPlane.vertices.push( vertices[7] );
         mPlane.vertices.push( vertices[8] );
-        mPlane.faces.push( new THREE.Face4( 0, 1, 2, 3) );
+        mPlane.faces.push( new THREE.Face4( 0, 1, 2 );
+        mPlane.faces.push( new THREE.Face3( 1, 2, 3) );
         mPlane.computeBoundingSphere();
     
 
@@ -244,6 +246,9 @@ function init() {
 
     var aPlaneMesh = new THREE.Mesh(aPlane, aMaterial );
     scene.add( aPlaneMesh );
+    
+    var mPlaneMesh = new THREE.Mesh(mPlane, mMaterial );
+    scene.add( mPlaneMesh );
 
     //setup GUI
     gui = new dat.GUI();
