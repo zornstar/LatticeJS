@@ -128,7 +128,7 @@ function init() {
         
         for(var y = start.y; y < end.y; y=y+2.2) {
             for(var x = start.x, s=0; x < end.x; x=x+1.6) {
-                for(var z = start.z; z < end.z; z=z+1.8) {
+                for(var z = start.z; z < end.z; z=z+2) {
                     make_lattice(new THREE.Vector3(x, y, z + s%2*.95), obj);
                 }
                 ++s;
@@ -152,7 +152,7 @@ function init() {
         
     draw_hex_lattice(new THREE.Matrix4().makeRotationY(Math.PI/6), new THREE.Vector3(0, Math.PI/2, 0), new THREE.Vector3(-10, -20, -20), new THREE.Vector3(0, 20, 20), new THREE.Vector3(.25, .25, 1), 0);
     draw_hex_lattice(new THREE.Matrix4().makeRotationY(Math.PI/6), new THREE.Vector3(-Math.PI/2, 0, 0), new THREE.Vector3(-20, 1.66, -19), new THREE.Vector3(20, 5, 19), new THREE.Vector3(1, .25, .25), 0);
-    
+    controls.update();
 }
 
         
