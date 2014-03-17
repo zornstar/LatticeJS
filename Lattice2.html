@@ -129,8 +129,8 @@ function init() {
         var a = Lattice.radiusTop*Math.cos(Math.PI/6);
         var b = Lattice.radiusTop*Math.sin(Math.PI/6);
         for(var y = start.y; y < end.y; y=y+Lattice.radiusTop+b) {
-            for(var x = start.x, s=0; x < end.x; x=x+Lattice.Height) {
-                for(var z = start.z; z < end.z; z=z+8) {
+            for(var x = start.x, s=0; x < end.x; x=x+10) {
+                for(var z = start.z; z < end.z; z=z+Lattice.Height) {
                     make_lattice(new THREE.Vector3(x, y, z + s%2*a), obj);
                 }
                 ++s;
