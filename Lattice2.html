@@ -136,10 +136,10 @@ function init() {
         console.log(h);
         console.log(r);
         
-        for(var y = start.y; y < end.y; y=y+1) {
-            for(var x = start.x, s=0; x < end.x; x=x+5) {
-                for(var z = start.z; z < end.z; z=z+5) {
-                    make_lattice(new THREE.Vector3(x, y, z + s%2*a), obj);
+        for(var y = start.y; y < end.y; y=y+h) {
+            for(var x = start.x, s=0; x < end.x; x=x+2*a) {
+                for(var z = start.z; z < end.z; z=z+b+r) {
+                    make_lattice(new THREE.Vector3(x+s%2*a, y, z), obj);
                 }
                 ++s;
             }
