@@ -126,10 +126,12 @@ function init() {
             idx=idx+Lattice.vertices.length;
         }
         
-        for(var y = start.y; y < end.y; y=y+2*Lattice.radiusTop) {
-            for(var x = start.x, s=0; x < end.x; x=x+2*Lattice.radiusTop*Math.cos(Math.PI/6)) {
+        var a = Lattice.radiusTop*Math.cos(Math.PI/6);
+        var b = Lattice.radiusTop*Math.cos(Math.PI/6);
+        for(var y = start.y; y < end.y; y=y+Lattice.radiusTop+b) {
+            for(var x = start.x, s=0; x < end.x; x=x+2*a) {
                 for(var z = start.z; z < end.z; z=z+Lattice.height) {
-                    make_lattice(new THREE.Vector3(x, y, z + s%2*.95), obj);
+                    make_lattice(new THREE.Vector3(x, y, z + s%2*a), obj);
                 }
                 ++s;
             }
