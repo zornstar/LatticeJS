@@ -136,9 +136,9 @@ function init() {
         console.log(h);
         console.log(r);
         
-        for(var y = start.y; y < end.y; y=y+Lattice.Height/2) {
-            for(var x = start.x, s=0; x < end.x; x=x+2) {
-                for(var z = start.z; z < end.z; z=z+2) {
+        for(var y = start.y; y < end.y; y=y+1) {
+            for(var x = start.x, s=0; x < end.x; x=x+5) {
+                for(var z = start.z; z < end.z; z=z+1) {
                     make_lattice(new THREE.Vector3(x, y, z + s%2*a), obj);
                 }
                 ++s;
@@ -160,8 +160,8 @@ function init() {
         scene.add(mesh);
     }
         
-    draw_hex_lattice(2, new THREE.Matrix4().makeRotationY(2*Math.PI/6), new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, 0, 0), new THREE.Vector3(5, 5, 20), new THREE.Vector3(.25, .25, 1), 0);
-    draw_hex_lattice(1, new THREE.Matrix4().makeRotationY(Math.PI/6), new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, 0, 0), new THREE.Vector3(6, 6, 6), new THREE.Vector3(1, .25, .25), 0);
+    draw_hex_lattice(2, new THREE.Matrix4().makeRotationY(2*Math.PI/6), new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, 0, 0), new THREE.Vector3(20, 20, 20), new THREE.Vector3(.25, .25, 1), 0);
+    draw_hex_lattice(1, new THREE.Matrix4().makeRotationY(Math.PI/6), new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, 0, 0), new THREE.Vector3(20, 20, 20), new THREE.Vector3(1, .25, .25), 0);
     controls.update();
 }
 
