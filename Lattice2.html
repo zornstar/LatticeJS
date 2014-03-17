@@ -126,8 +126,16 @@ function init() {
             idx=idx+Lattice.vertices.length;
         }
         
-        var a = Lattice.radiusTop*Math.cos(Math.PI/6);
-        var b = Lattice.radiusTop*Math.sin(Math.PI/6);
+        var r = Lattice.radiusTop;
+        var a = r*Math.cos(Math.PI/6);
+        var b = r*Math.sin(Math.PI/6);
+        var h = Lattice.height;
+        
+        console.log(a);
+        console.log(b);
+        console.log(h);
+        console.log(r);
+        
         for(var y = start.y; y < end.y; y=y+Lattice.Height) {
             for(var x = start.x, s=0; x < end.x; x=x+Lattice.Height) {
                 for(var z = start.z; z < end.z; z=z+Lattice.Height) {
