@@ -143,7 +143,7 @@ function init() {
            		
            		for(var z = start.z; z < end.z; z=z+b+r) {
                     		
-                    		make_lattice(new THREE.Vector3(x+s%2*a, y, z), obj);
+                    		make_lattice(new THREE.Vector3(x+(s%2)*a, y, z), obj);
                 	}
             	}
         }
