@@ -167,7 +167,7 @@ function init() {
        
       //fix to account for rotations
     draw_hex_lattice(2, new THREE.Matrix4().makeRotationY(2*Math.PI/6), new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, -20, 0), new THREE.Vector3(20, 0, 20), new THREE.Vector3(.25, .25, 1), 0);
-    draw_hex_lattice(1, new THREE.Matrix4().makeRotationY(2*Math.PI/6), new THREE.Vector3(0, -Math.PI/2, 0), new THREE.Vector3(-20, 0, -20), new THREE.Vector3(0, 10, 20), new THREE.Vector3(1, .25, .25), 0);
+    draw_hex_lattice(1, new THREE.Matrix4().makeRotationY(2*Math.PI/6), new THREE.Vector3(0, -Math.PI/2, 0), new THREE.Vector3(-20, 0, -20), new THREE.Vector3(0, 10, 0), new THREE.Vector3(1, .25, .25), 0);
     controls.update();
 }
 
