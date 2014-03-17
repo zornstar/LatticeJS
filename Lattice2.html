@@ -142,7 +142,7 @@ function init() {
          	console.log((s%2)*a);
        		for(var x = start.x; x < end.x; x=x+2*a) {
            		
-           		for(var y = start.y; y < end.y; y=y+h) {
+           		for(var y = start.y*mesh_rotation.y; y < end.y*mesh_rotation.y; y=y+h) {
            		
                     		
                     		make_lattice(new THREE.Vector3(x+(s%2)*a, y, z), obj);
