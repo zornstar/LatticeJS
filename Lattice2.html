@@ -137,8 +137,8 @@ function init() {
         console.log(r);
         
         for(var y = start.y; y < end.y; y=y+Lattice.Height/2) {
-            for(var x = start.x, s=0; x < end.x; x=x+Lattice.Height) {
-                for(var z = start.z; z < end.z; z=z+Lattice.Height) {
+            for(var x = start.x, s=0; x < end.x; x=x+2) {
+                for(var z = start.z; z < end.z; z=z+2) {
                     make_lattice(new THREE.Vector3(x, y, z + s%2*a), obj);
                 }
                 ++s;
