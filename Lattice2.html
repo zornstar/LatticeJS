@@ -150,7 +150,7 @@ function init() {
         scene.add(mesh);
     }
         
-    draw_hex_lattice(2, new THREE.Matrix4().makeRotationY(Math.PI/6), new THREE.Vector3(0, 0, 0), new THREE.Vector3(-10, -20, -30), new THREE.Vector3(0, 20, 30), new THREE.Vector3(.25, .25, 1), 0);
+    draw_hex_lattice(2, new THREE.Matrix4().makeRotationY(Math.PI/6), new THREE.Vector3(0, 0, Math.PI/2), new THREE.Vector3(-10, -20, -30), new THREE.Vector3(0, 20, 30), new THREE.Vector3(.25, .25, 1), 0);
     draw_hex_lattice(1, new THREE.Matrix4().makeRotationY(Math.PI/6), new THREE.Vector3(-Math.PI/2, 0, 0), new THREE.Vector3(-29, 1.66, -10), new THREE.Vector3(29, 5, 10), new THREE.Vector3(1, .25, .25), 0);
     controls.update();
 }
