@@ -137,13 +137,12 @@ function init() {
         console.log(r);
         
         
-        for(var x = start.x; x < end.x; x=x+2*a) {
-           for(var y = start.y, s=0; y < end.y; y=y+h) {
-                for(var z = start.z; z < end.z; z=z+b+r) {
+        for(var z = start.z; z < end.z; z=z+b+r) {
+           for(var y = start.y, s=0; y < end.y; y=y+h, ++s) {
+           	for(var x = start.x; x < end.x; x=x+2*a) {
                     make_lattice(new THREE.Vector3(x+s%2*a, y, z), obj);
                 }
             }
-            ++s;
         }
         
         geometry.addAttribute( 'position', Float32Array, positions[obj].length, 3 );
