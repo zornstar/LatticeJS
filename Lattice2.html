@@ -166,7 +166,9 @@ function init() {
     }
        
       //fix to account for rotations
-    draw_hex_lattice(2, new THREE.Matrix4().makeRotationY(2*Math.PI/6), new THREE.Vector3(0, 0, 0), new THREE.Vector3(-18, -12, -18), new THREE.Vector3(18, 0, 18), new THREE.Vector3(.25, .25, 1), 0);
+      
+      //radius = lattice constant, GaN lattice constant = .319, Sapphire = .476
+    draw_hex_lattice(1.4921, new THREE.Matrix4().makeRotationY(2*Math.PI/6), new THREE.Vector3(0, 0, 0), new THREE.Vector3(-18, -12, -18), new THREE.Vector3(18, 0, 18), new THREE.Vector3(.25, .25, 1), 0);
     draw_hex_lattice(1, new THREE.Matrix4().makeRotationY(2*Math.PI/6), new THREE.Vector3(0, -Math.PI/2, 0), new THREE.Vector3(-18, -1, -18), new THREE.Vector3(18, 3, 18), new THREE.Vector3(1, .25, .25), 0);
     controls.update();
 }
