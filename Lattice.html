@@ -198,9 +198,7 @@ function init() {
     							bevelEnabled:false
     							
     						});
-	a0TextGeo.text = "a0";
 	a0TextGeo.position = a0;
-	
 	var a1TextGeo = new THREE.TextGeometry("a1", {
     							size:.25,
     							height:.01,
@@ -208,17 +206,15 @@ function init() {
     							
     						});
 	var a1TextGeo = cTextGeo.clone();
-	a1TextGeo.text = "a1";
 	a1TextGeo.position = a1;
 	
-	var a2TextGeo = new THREE.TextGeometry("a1", {
+	var a2TextGeo = new THREE.TextGeometry("a2", {
     							size:.25,
     							height:.01,
     							bevelEnabled:false
     							
     						});
 	var a2TextGeo = cTextGeo.clone();
-	a2TextGeo.text = "a2";
 	a2TextGeo.position = a2;
 	
     	THREE.GeometryUtils.merge(cTextGeo, a0TextGeo);
@@ -276,14 +272,15 @@ function init() {
     scene.add( rPlaneMesh );
     
     var axis = new THREE.Line(axis(), axisMaterial);
-    scene.add( axis );
-    
     var axisLabels = new THREE.Mesh(axisLabels(vertices[12],
     						vertices[8], 
     						vertices[10], 
     						new THREE.Vector3(0,vertices[1].y,0)),
     						axisMaterial);
-    scene.add( axisLabels );
+    THREE.GeometryUtils.merge(axis, axisLabels);
+    scene.add( axis );
+    
+    
     //setup GUI
     gui = new dat.GUI();
     
