@@ -90,7 +90,7 @@ function init() {
 	// helper
 	egh = new THREE.EdgesHelper( LatticeMesh, 0xFFFFFF );
 	egh.material.transparent = true;
-	egh.material.linewidth = 5;
+	egh.material.linewidth = 10;
 	scene.add( egh );
 	
 	var vertices = Lattice.vertices;											       
@@ -208,7 +208,9 @@ function init() {
 	} );
 	
    var axisMaterial = new THREE.LineBasicMaterial({
-        color: 0x0000ff
+        color: 0x7F00FF, //purple
+        opacity: .5,
+        
     });
 	
     cPlaneMesh = new THREE.Mesh(cPlane, cMaterial );
@@ -269,9 +271,9 @@ function init() {
     var axisVisible = gui.add( parameters, 'axisVisible' ).name('Axis').listen();
 	axisVisible.onChange(function(value) 
 	{   
-	if(value) scene.add( axisMesh );
+	if(value) scene.add( axis );
         
-        else scene.remove( axisMesh );
+        else scene.remove( axis );
     
     });
     gui.add( parameters, 'reset' ).name("Reset");
