@@ -84,6 +84,7 @@ function init() {
 	} );
 	// mesh
 	var LatticeMesh = new THREE.Mesh( Lattice, LatticeMaterial );
+	LatticeMesh.doubleSided = true;
 	scene.add( LatticeMesh );
 
 	// helper
@@ -178,6 +179,43 @@ function init() {
     	return geometry;	
     }
     
+    function axisLabels(a1, a2, a3, c) {
+    	
+    	
+				
+    	var cTextGeo = new THREE.TextGeometry( "c", {
+    					size: 5,
+					height: 5,
+					curveSegments: 5,
+					font: "optimer",
+					weight: 5,
+					style: "normal",
+					material: 0
+
+				});
+	cTextGeo.computeBoundingBox();
+	cTextGeo.computeVertexNormals();
+	cTextGeo.position = c;
+	
+	var a0TextGeo = cTextGeo.clone();
+	a0TextGeo.text = "a0";
+	a0TextGeo.position = a0;
+	
+	var a1TextGeo = cTextGeo.clone();
+	a1TextGeo.text = "a1";
+	a1TextGeo.position = a1;
+	
+	var a2TextGeo = cTextGeo.clone();
+	a2TextGeo.text = "a2";
+	a2TextGeo.position = a2;
+	
+    	THREE.GeometryUtils.merge(cTextGeo, a0TextGeo);
+    	THREE.GeometryUtils.merge(cTextGeo, a1TextGeo);
+    	THREE.GeometryUtils.merge(cTextGeo, a2TextGeo);
+    	
+    	return cTextGeo;
+    }
+    
     var cMaterial = new THREE.MeshBasicMaterial( {
 		color: cPlaneColor,
 		shading: THREE.FlatShading,
@@ -227,7 +265,13 @@ function init() {
     
     var axis = new THREE.Line(axis(), axisMaterial);
     scene.add( axis );
-
+    
+    var axisLabels = new Three.Mesh(axisLabels(vertices[12],
+    						vertices[8], 
+    						vertices[10], 
+    						new THREE.Vector3(0,vertices[1].y,0)),
+    						axisMaterial);
+    scene.add( axisLabels );
     //setup GUI
     gui = new dat.GUI();
     
