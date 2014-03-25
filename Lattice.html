@@ -183,12 +183,22 @@ function init() {
     	
     	
 				
-    	var cTextGeo = new THREE.TextGeometry( "c", {
-    					size: 5,
-					height: 5,
-					curveSegments: 5,
-					font: "optimer",
-					style: "normal"
+    	var cTextGeo = new THREE.TextGeometry( text, {
+
+					size: size,
+					height: height,
+					curveSegments: curveSegments,
+
+					font: font,
+					weight: weight,
+					style: style,
+
+					bevelThickness: bevelThickness,
+					bevelSize: bevelSize,
+					bevelEnabled: bevelEnabled,
+
+					material: 0,
+					extrudeMaterial: 1
 
 				});
 	cTextGeo.computeBoundingBox();
