@@ -247,28 +247,31 @@ function init() {
     });
      var aPlaneVisible = gui.add( parameters, 'aPlaneVisible' ).name('A Plane').listen();
 	aPlaneVisible.onChange(function(value) 
-	{   //c Plane
+	{   
     	if(value) scene.add( aPlaneMesh );
         
         else scene.remove(aPlaneMesh);
     });
      var mPlaneVisible = gui.add( parameters, 'mPlaneVisible' ).name('M Plane').listen();
 	mPlaneVisible.onChange(function(value) 
-	{   //c Plane
+	{   
     	if(value) scene.add( mPlaneMesh );
         
         else scene.remove(mPlaneMesh);
     });
     var rPlaneVisible = gui.add( parameters, 'rPlaneVisible' ).name('R Plane').listen();
 	rPlaneVisible.onChange(function(value) 
-	{   //c Plane
+	{   
     	if(value) scene.add( rPlaneMesh );
         
         else scene.remove(rPlaneMesh);
     });
     var axisVisible = gui.add( parameters, 'axisVisible' ).name('Axis').listen();
 	axisVisible.onChange(function(value) 
-	{   //c Plane
+	{   
+	if(value) scene.add( axisMesh );
+        
+        else scene.remove( axisMesh );
     
     });
     gui.add( parameters, 'reset' ).name("Reset");
