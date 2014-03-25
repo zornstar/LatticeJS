@@ -153,8 +153,8 @@ function init() {
     
 
     function axis() {
-    	var z = vertices[7].z;
-    	var bottom = new THREE.Vector3(0,0,z);
+    	var y = vertices[7].y;
+    	var bottom = new THREE.Vector3(0,0,y);
     	
     	var geometry = new THREE.Geometry();
     	geometry.vertices.push(vertices[12]);
@@ -169,7 +169,7 @@ function init() {
     	geometry3.vertices.push(bottom);
     	
     	var geometry4 = new THREE.Geometry();
-    	geometry4.vertices.push(new THREE.Vector3(0,0,vertices[1].z));
+    	geometry4.vertices.push(new THREE.Vector3(0,0,vertices[1].y));
     	geometry4.vertices.push(bottom);
     	
     	THREE.GeometryUtils.merge(geometry, geometry2);
