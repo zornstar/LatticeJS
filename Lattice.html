@@ -192,14 +192,31 @@ function init() {
 	cTextGeo.computeVertexNormals();
 	cTextGeo.position = c;
 	
-	var a0TextGeo = cTextGeo.clone();
+	var a0TextGeo = new THREE.TextGeometry("a0", {
+    							size:.25,
+    							height:.01,
+    							bevelEnabled:false
+    							
+    						});
 	a0TextGeo.text = "a0";
 	a0TextGeo.position = a0;
 	
+	var a1TextGeo = new THREE.TextGeometry("a1", {
+    							size:.25,
+    							height:.01,
+    							bevelEnabled:false
+    							
+    						});
 	var a1TextGeo = cTextGeo.clone();
 	a1TextGeo.text = "a1";
 	a1TextGeo.position = a1;
 	
+	var a2TextGeo = new THREE.TextGeometry("a1", {
+    							size:.25,
+    							height:.01,
+    							bevelEnabled:false
+    							
+    						});
 	var a2TextGeo = cTextGeo.clone();
 	a2TextGeo.text = "a2";
 	a2TextGeo.position = a2;
