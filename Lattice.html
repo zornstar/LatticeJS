@@ -75,7 +75,6 @@ function init() {
 	var Lattice = new THREE.CylinderGeometry( 1, 1, 2, 6, 1, false );
 	Lattice.applyMatrix( new THREE.Matrix4().makeTranslation( 0, 0, 0 ) );
 	var LatticeMaterial = new THREE.MeshBasicMaterial( {
-		color: 0x000000,
 		shading: THREE.FlatShading,
 		polygonOffset: true,
 		polygonOffsetFactor: 1,
@@ -210,6 +209,7 @@ function init() {
    var axisMaterial = new THREE.LineBasicMaterial({
         color: 0x7F00FF, //purple
         opacity: .5,
+        linewidth: 3
         
     });
 	
