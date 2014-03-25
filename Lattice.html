@@ -181,10 +181,8 @@ function init() {
     }
     
     function axisLabels(a0, a1, a2, c) {
-    	
-    	
-				
-    	var cTextGeo = new THREE.TextGeometry( "c");
+    
+    	var cTextGeo = new THREE.TextGeometry("c", {size:2});
 	cTextGeo.computeBoundingBox();
 	cTextGeo.computeVertexNormals();
 	cTextGeo.position = c;
