@@ -152,6 +152,32 @@ function init() {
         rPlane.computeBoundingSphere();
     
 
+    function axis() {
+    	var z = vertices[7].z;
+    	var bottom = new THREE.Vector3(0,0,z);
+    	
+    	var geometry = new THREE.Geometry();
+    	geometry.vertices.push(vertices[12]);
+    	geometry.vertices.push(bottom);
+    	
+    	var geometry2 = new THREE.Geometry();
+    	geometry2.vertices.push(vertices[8]);
+    	geometry2.vertices.push(bottom);
+    	
+    	var geometry3 = new THREE.Geometry();
+    	geometry3.vertices.push(vertices[10]);
+    	geometry3.vertices.push(bottom);
+    	
+    	var geometry4 = new THREE.Geometry();
+    	geometry4.vertices.push(new THREE.Vector3(0,0,vertices[1].z));
+    	geometry5.vertices.push(bottom);
+    	
+    	THREE.GeometryUtils.merge(geometry, geometry2);
+    	THREE.GeometryUtils.merge(geometry, geometry3);
+    	THREE.GeometryUtils.merge(geometry, geometry4);
+    	
+    	return geometry;	
+    }
     
     var cMaterial = new THREE.MeshBasicMaterial( {
 		color: cPlaneColor,
@@ -181,6 +207,10 @@ function init() {
 		transparent: false
 	} );
 	
+   var axisMaterial = new THREE.LineBasicMaterial({
+        color: 0x0000ff
+    });
+	
     cPlaneMesh = new THREE.Mesh(cPlane, cMaterial );
     scene.add( cPlaneMesh );
 
@@ -192,6 +222,9 @@ function init() {
     
     rPlaneMesh = new THREE.Mesh(rPlane, rMaterial );
     scene.add( rPlaneMesh );
+    
+    var axis = new THREE.Line(axis(), axisMaterial);
+    scene.add( axis );
 
     //setup GUI
     gui = new dat.GUI();
