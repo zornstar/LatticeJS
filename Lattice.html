@@ -169,7 +169,7 @@ function init() {
     	geometry3.vertices.push(bottom);
     	
     	var geometry4 = new THREE.Geometry();
-    	geometry4.vertices.push(new THREE.Vector3(0,0,vertices[1].y));
+    	geometry4.vertices.push(new THREE.Vector3(0,vertices[1].y,0));
     	geometry4.vertices.push(bottom);
     	
     	THREE.GeometryUtils.merge(geometry, geometry2);
