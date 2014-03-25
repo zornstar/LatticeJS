@@ -72,7 +72,7 @@ function init() {
 	scene.add( light );
 
 	// Unit Cell
-	var Lattice = new THREE.CylinderGeometry( 1, 1, 2, 6, 1, false );
+	var Lattice = new THREE.CylinderGeometry( 1, 1, 2, 6, 2, false );
 	Lattice.applyMatrix( new THREE.Matrix4().makeTranslation( 0, 0, 0 ) );
 	var LatticeMaterial = new THREE.MeshBasicMaterial( {
 		color: 0x000000,
