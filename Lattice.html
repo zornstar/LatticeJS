@@ -183,24 +183,7 @@ function init() {
     	
     	
 				
-    	var cTextGeo = new THREE.TextGeometry( "c", {
-
-					size: 5,
-					height: 5,
-					curveSegments: 5,
-
-					font: "optimer",
-					weight: "bold",
-					style: "normal",
-
-					bevelThickness: 0,
-					bevelSize: 0,
-					bevelEnabled: false,
-
-					material: 0,
-					extrudeMaterial: 1
-
-				});
+    	var cTextGeo = new THREE.TextGeometry( "c");
 	cTextGeo.computeBoundingBox();
 	cTextGeo.computeVertexNormals();
 	cTextGeo.position = c;
