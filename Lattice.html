@@ -152,7 +152,43 @@ function init() {
         rPlane.faces.push( new THREE.Face3( 2, 3, 0 ) );
         rPlane.computeBoundingSphere();
     
+    //Materials
+    var cMaterial = new THREE.MeshBasicMaterial( {
+		color: cPlaneColor,
+		shading: THREE.FlatShading,
+		side: THREE.DoubleSide,
+		transparent: false
+	} );
+
+    var aMaterial = new THREE.MeshBasicMaterial( {
+		color: aPlaneColor,
+		shading: THREE.FlatShading,
+		side: THREE.DoubleSide,
+		transparent: false
+	} );
+	
+    var mMaterial = new THREE.MeshBasicMaterial( {
+		color: mPlaneColor,
+		shading: THREE.FlatShading,
+		side: THREE.DoubleSide,
+		transparent: false
+	} );
+	
+    var rMaterial = new THREE.MeshBasicMaterial( {
+		color: rPlaneColor,
+		shading: THREE.FlatShading,
+		side: THREE.DoubleSide,
+		transparent: false
+	} );
+	
     
+    var axisMaterial = new THREE.LineBasicMaterial({
+        	color: 0x7F00FF, //purple
+        	opacity: .5,
+        	linewidth: 3
+    });
+    
+        
     //Return geometry object with axes
     function axis() {
     	var y = vertices[7].y;
@@ -190,12 +226,6 @@ function init() {
     			 height:.01,
     			 bevelEnabled:false
     			};
-    			
-    	var axisMaterial = new THREE.LineBasicMaterial({
-        	color: 0x7F00FF, //purple
-        	opacity: .5,
-        	linewidth: 3
-        });
         
     	var cTextGeo = new THREE.TextGeometry("c", attrDict);
 	cTextGeo.computeBoundingBox();
@@ -222,37 +252,7 @@ function init() {
 
     	return axisLabels;
     }
-    
-    var cMaterial = new THREE.MeshBasicMaterial( {
-		color: cPlaneColor,
-		shading: THREE.FlatShading,
-		side: THREE.DoubleSide,
-		transparent: false
-	} );
 
-    var aMaterial = new THREE.MeshBasicMaterial( {
-		color: aPlaneColor,
-		shading: THREE.FlatShading,
-		side: THREE.DoubleSide,
-		transparent: false
-	} );
-	
-    var mMaterial = new THREE.MeshBasicMaterial( {
-		color: mPlaneColor,
-		shading: THREE.FlatShading,
-		side: THREE.DoubleSide,
-		transparent: false
-	} );
-	
-   var rMaterial = new THREE.MeshBasicMaterial( {
-		color: rPlaneColor,
-		shading: THREE.FlatShading,
-		side: THREE.DoubleSide,
-		transparent: false
-	} );
-	
-   
-	
     cPlaneMesh = new THREE.Mesh(cPlane, cMaterial );
     scene.add( cPlaneMesh );
 
@@ -273,25 +273,42 @@ function init() {
     	scene.add(axisLabels[i]);
     }
     
-    
-    
+
     //setup GUI
-    gui = new dat.GUI();
     
-    var cPlanesGUI = gui.addFolder('C Planes');
-    var aPlanesGUI = gui.addFolder('A Planes');
-    var mPlanesGUI = gui.addFolder('M Planes');
-    var rPlanesGUI = gui.addFolder('R Planes');
+    gui = gui();
+    gui.add( parameters, 'reset' ).name("Reset");
+    gui.open();
+}
+
+function animate() {
+
+	requestAnimationFrame( animate );  
+	renderer.render( scene, camera );
+    update();
+}
+ 
+function resetLattice()
+{
     
-    parameters = 
-	{
-	cPlaneVisible: true,
-        aPlaneVisible: true,
-        mPlaneVisible: true,
-        rPlaneVisible: true,
-        axisVisible: false,
-		reset: function() { resetLattice() }
-	};
+}      
+
+function gui() {
+    var _gui = new dat.GUI();
+    
+    var cPlanesGUI = _gui.addFolder('C Planes');
+    var aPlanesGUI = _gui.addFolder('A Planes');
+    var mPlanesGUI = _gui.addFolder('M Planes');
+    var rPlanesGUI = _gui.addFolder('R Planes');
+    
+    parameters = 	{
+    			cPlaneVisible: true,
+        		aPlaneVisible: true,
+        		mPlaneVisible: true,
+        		rPlaneVisible: true,
+        		axisVisible: false,
+			reset: function() { resetLattice() }
+		};
     var cPlaneVisible = cPlanesGUI.add( parameters, 'cPlaneVisible' ).name('C Plane').listen();
 	cPlaneVisible.onChange(function(value) 
 	{   //c Plane
@@ -321,7 +338,7 @@ function init() {
         
         else scene.remove(rPlaneMesh);
     });
-    var axisVisible = gui.add( parameters, 'axisVisible' ).name('Axis').listen();
+    var axisVisible = _gui.add( parameters, 'axisVisible' ).name('Axis').listen();
 	axisVisible.onChange(function(value) 
 	{   
 	if(value) scene.add( axis );
@@ -330,21 +347,9 @@ function init() {
     
     });
     
-    gui.add( parameters, 'reset' ).name("Reset");
-    gui.open();
-}
-
-function animate() {
-
-	requestAnimationFrame( animate );  
-	renderer.render( scene, camera );
-    update();
-}
- 
-function resetLattice()
-{
+    return _gui;
     
-}      
+}
 
 function update()
 {
