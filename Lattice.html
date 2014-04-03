@@ -188,27 +188,35 @@ function init() {
         	linewidth: 3
     });
     
-        
+    
+    var y = vertices[7].y;
+    
+    var axisPts = [ new THREE.Vector3(0,y,0),
+    		    vertices[12],
+    		    vertices[8],
+    		    vertices[10],
+    		    new THREE.Vector3(0,vertices[1].y,0)
+    	];
     //Return geometry object with axes
     function axis() {
     	var y = vertices[7].y;
     	var bottom = new THREE.Vector3(0,y,0);
     	
     	var geometry = new THREE.Geometry();
-    	geometry.vertices.push(vertices[12]);
-    	geometry.vertices.push(bottom);
+    	geometry.vertices.push(axisPts[1]);
+    	geometry.vertices.push(axisPts[0]);
     	
     	var geometry2 = new THREE.Geometry();
-    	geometry2.vertices.push(vertices[8]);
-    	geometry2.vertices.push(bottom);
+    	geometry2.vertices.push(axisPts[2]);
+    	geometry2.vertices.push(axisPts[0);
     	
     	var geometry3 = new THREE.Geometry();
-    	geometry3.vertices.push(vertices[10]);
-    	geometry3.vertices.push(bottom);
+    	geometry3.vertices.push(axisPts[3]);
+    	geometry3.vertices.push(axisPts[0]);
     	
     	var geometry4 = new THREE.Geometry();
-    	geometry4.vertices.push(new THREE.Vector3(0,vertices[1].y,0));
-    	geometry4.vertices.push(bottom);
+    	geometry4.vertices.push(axisPts[4]);
+    	geometry4.vertices.push(axisPts[0]);
     	
     	THREE.GeometryUtils.merge(geometry, geometry2);
     	THREE.GeometryUtils.merge(geometry, geometry3);
@@ -268,7 +276,7 @@ function init() {
     var axis = new THREE.Line(axis(), axisMaterial);
     scene.add( axis );
     
-    var axisLabels = axisLabels();
+    var axisLabels = axisLabels(axisPts[1], axisPts[2], axisPts[3], axisPts[4]);
     for(var i = 0; i < axisLabels.length; ++i) {
     	scene.add(axisLabels[i]);
     }
