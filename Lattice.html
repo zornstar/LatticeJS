@@ -232,7 +232,7 @@ function init() {
     // Return array with labels
     function axisLabels(a0, a1, a2, c) {
     	
-    	var axisLabels = [];
+    	var _axisLabels = [];
     	var attrDict = { size:.25,
     			 height:.01,
     			 bevelEnabled:false
@@ -244,7 +244,7 @@ function init() {
 	var cLabelMesh = new THREE.Mesh(cTextGeo, axisMaterial);
 	cLabelMesh.position = c;
 	cLabelMesh.rotation.y += Math.PI/6;
-	axisLabels.push(cLabelMesh);
+	_axisLabels.push(cLabelMesh);
 	
 	var a0TextGeo = new THREE.TextGeometry("a2", attrDict);
     						
@@ -257,15 +257,15 @@ function init() {
 	var a1LabelMesh = new THREE.Mesh(a1TextGeo, axisMaterial);
 	a1LabelMesh.position = a1;
 	a1LabelMesh.rotation.u += Math.PI/6;
-	axisLabels.push(a1LabelMesh);
+	_axisLabels.push(a1LabelMesh);
 	
 	var a2TextGeo = new THREE.TextGeometry("a3", attrDict);
 	var a2LabelMesh = new THREE.Mesh(a2TextGeo, axisMaterial);
 	a2LabelMesh.position = a2;
 	a2LabelMesh.rotation.u += Math.PI/6;
-	axisLabels.push(a2LabelMesh);
+	_axisLabels.push(a2LabelMesh);
 
-    	return axisLabels;
+    	return _axisLabels;
     }
 
     cPlaneMesh = new THREE.Mesh(cPlane, cMaterial );
