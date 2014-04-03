@@ -97,7 +97,7 @@ function init() {
 	var vertices = Lattice.vertices;											       
 
 	//c plane
-	var cPlaneColor = new THREE.Color( 0xFF0000 );       
+	var cPlaneColor = new THREE.Color( 0xFFFF00 );       
     	var cPlane = new THREE.Geometry();
 	cPlane.applyMatrix( new THREE.Matrix4().makeTranslation( 0, 0, 0 ) );
 
@@ -114,7 +114,7 @@ function init() {
         cPlane.computeBoundingSphere();
 
         //a plane
-	var aPlaneColor = new THREE.Color( 0x0000FF );       
+	var aPlaneColor = new THREE.Color( 0x00FF00 );       
         var aPlane = new THREE.Geometry();
 	aPlane.applyMatrix( new THREE.Matrix4().makeTranslation( 0, 0, 0 ) );
 
@@ -127,7 +127,7 @@ function init() {
         aPlane.computeBoundingSphere();
         
         //m plane
-	var mPlaneColor = new THREE.Color( 0x00FF00 );       
+	var mPlaneColor = new THREE.Color( 0x0000FF );       
         var mPlane = new THREE.Geometry();
 	mPlane.applyMatrix( new THREE.Matrix4().makeTranslation( 0, 0, 0 ) );
 
@@ -140,7 +140,7 @@ function init() {
         mPlane.computeBoundingSphere();
         
         //r plane
-	var rPlaneColor = new THREE.Color( 0xFFFF00 );       
+	var rPlaneColor = new THREE.Color( 0xd3d3d3 );       
         var rPlane = new THREE.Geometry();
 	rPlane.applyMatrix( new THREE.Matrix4().makeTranslation( 0, 0, 0 ) );
 
@@ -242,18 +242,18 @@ function init() {
 	cLabelMesh.position = c;
 	axisLabels.push(cLabelMesh);
 	
-	var a0TextGeo = new THREE.TextGeometry("a0", attrDict);
+	var a0TextGeo = new THREE.TextGeometry("a1", attrDict);
     						
 	var a0LabelMesh = new THREE.Mesh(a0TextGeo, axisMaterial);
 	a0LabelMesh.position = a0;
 	axisLabels.push(a0LabelMesh);
 	
-	var a1TextGeo = new THREE.TextGeometry("a1", attrDict);
+	var a1TextGeo = new THREE.TextGeometry("a2", attrDict);
 	var a1LabelMesh = new THREE.Mesh(a1TextGeo, axisMaterial);
 	a1LabelMesh.position = a1;
 	axisLabels.push(a1LabelMesh);
 	
-	var a2TextGeo = new THREE.TextGeometry("a2", attrDict);
+	var a2TextGeo = new THREE.TextGeometry("a3", attrDict);
 	var a2LabelMesh = new THREE.Mesh(a2TextGeo, axisMaterial);
 	a2LabelMesh.position = a2;
 	axisLabels.push(a2LabelMesh);
