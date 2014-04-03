@@ -165,7 +165,7 @@ function init() {
 		color: aPlaneColor,
 		shading: THREE.FlatShading,
 		side: THREE.DoubleSide,
-		transparent: false,
+		transparent: true,
 		opacity: .5
 	} );
 	
@@ -173,7 +173,7 @@ function init() {
 		color: mPlaneColor,
 		shading: THREE.FlatShading,
 		side: THREE.DoubleSide,
-		transparent: false,
+		transparent: true,
 		opacity: .5
 	} );
 	
@@ -181,13 +181,13 @@ function init() {
 		color: rPlaneColor,
 		shading: THREE.FlatShading,
 		side: THREE.DoubleSide,
-		transparent: false,
+		transparent: true,
 		opacity: .5
 	} );
 	
     
     var axisMaterial = new THREE.LineBasicMaterial({
-        	color: 0x7F00FF, //purple
+        	color: 0xFFFFFF, //white
         	opacity: .5,
         	linewidth: 3
     });
@@ -196,10 +196,10 @@ function init() {
     var y = vertices[7].y;
     
     var axisPts = [ new THREE.Vector3(0,y,0),
-    		    vertices[12].clone().multiplyScalar(1.2).setY(y),
-    		    vertices[8].clone().multiplyScalar(1.2).setY(y),
-    		    vertices[10].clone().multiplyScalar(1.2).setY(y),
-    		    new THREE.Vector3(0,vertices[1].y,0).multiplyScalar(1.2)
+    		    vertices[11].clone().multiplyScalar(1.33).setY(y),
+    		    vertices[7].clone().multiplyScalar(1.33).setY(y),
+    		    vertices[9].clone().multiplyScalar(1.33).setY(y),
+    		    new THREE.Vector3(0,vertices[1].y,0).multiplyScalar(1.33)
     	];
     //Return geometry object with axes
     function axis() {
