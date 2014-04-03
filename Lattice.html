@@ -25,7 +25,7 @@ var gui, parameters;
 var renderer, scene, camera, controls;
 var aPlaneMesh, cPlaneMesh, mPlaneMesh, rPlaneMesh;
 var egh;
-var axis, axisLabels;
+var axis, axisCones;
 
 init();
 animate();
@@ -225,6 +225,8 @@ function init() {
     	THREE.GeometryUtils.merge(geometry, geometry3);
     	THREE.GeometryUtils.merge(geometry, geometry4);
     	
+    	
+        
     	return geometry;	
     }
     
@@ -238,6 +240,8 @@ function init() {
     			 bevelEnabled:false
     			};
         
+        
+      
     	var cTextGeo = new THREE.TextGeometry("c", attrDict);
 	cTextGeo.computeBoundingBox();
 	cTextGeo.computeVertexNormals();
@@ -268,6 +272,20 @@ function init() {
     	return _axisLabels;
     }
 
+
+    
+    function make_axisCones(a0, a1, a2, c) {
+    	var _axisCones = [];
+    	
+    	  //make cones
+    	var cCone = new THREE.CylinderGeometry(0, .333, .444, 20, 5);
+        var cConeMeshe = new THREE.Mesh(cCone, axisMaterial);
+        cCone.position = c;
+        _axisCones.push(cCone);
+        
+        return _axisCone;
+        
+    }
     cPlaneMesh = new THREE.Mesh(cPlane, cMaterial );
     scene.add( cPlaneMesh );
 
@@ -284,8 +302,10 @@ function init() {
     scene.add( axis );
     
     axisLabels = make_axisLabels(axisPts[1], axisPts[2], axisPts[3], axisPts[4]);
+    axisCones = make_axisCones(axisPts[1], axisPts[2], axisPts[3], axisPts[4]);
     for(var i = 0; i < axisLabels.length; ++i) {
     	scene.add(axisLabels[i]);
+    	scene.add(axisCones[i]);
     }
     
 
@@ -300,7 +320,7 @@ function animate() {
 
 	requestAnimationFrame( animate );  
 	renderer.render( scene, camera );
-    update();
+    	update();
 }
  
 function resetLattice()
@@ -371,8 +391,15 @@ function toggleAxis(value) {
     	
     for(var i = 0; i < axisLabels.length; ++i) {
     	
-    	if(value)  	scene.add(axisLabels[i]);
-    	else		scene.remove(axisLabels[i] );
+    	if(value)  	{
+    		scene.add(axisLabels[i]);
+    		scene.add(axisCones[i])
+    	}
+    	else		{
+    		scene.remove(axisLabels[i] );
+    		scene.remove(axisCones[i]);
+    	
+    	}
     }
     	
 }
