@@ -146,8 +146,8 @@ function init() {
 
 	rPlane.vertices.push( vertices[4] );
         rPlane.vertices.push( vertices[1] );
-        rPlane.vertices.push( vertices[7] );
-        rPlane.vertices.push( vertices[12] );
+        rPlane.vertices.push( vertices[8] );
+        rPlane.vertices.push( vertices[9] );
         rPlane.faces.push( new THREE.Face3( 0, 1, 2 ) );
         rPlane.faces.push( new THREE.Face3( 2, 3, 0 ) );
         rPlane.computeBoundingSphere();
@@ -254,7 +254,7 @@ function init() {
 	axisLabels.push(a1LabelMesh);
 	
 	var a2TextGeo = new THREE.TextGeometry("a2", attrDict);
-	var a2LabelMesh = new THREE.Mesh(a1TextGeo, axisMaterial);
+	var a2LabelMesh = new THREE.Mesh(a2TextGeo, axisMaterial);
 	a2LabelMesh.position = a2;
 	axisLabels.push(a2LabelMesh);
 
