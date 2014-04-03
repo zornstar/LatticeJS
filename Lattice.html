@@ -201,7 +201,7 @@ function init() {
     		    new THREE.Vector3(0,vertices[1].y,0).multiplyScalar(1.33)
     	];
     //Return geometry object with axes
-    function axis() {
+    function make_axis() {
     	var y = vertices[7].y;
     	var bottom = new THREE.Vector3(0,y,0);
     	
@@ -230,7 +230,7 @@ function init() {
     
     // Pass in positions of axis labels
     // Return array with labels
-    function axisLabels(a0, a1, a2, c) {
+    function make_axisLabels(a0, a1, a2, c) {
     	
     	var _axisLabels = [];
     	var attrDict = { size:.25,
@@ -280,10 +280,10 @@ function init() {
     rPlaneMesh = new THREE.Mesh(rPlane, rMaterial );
     scene.add( rPlaneMesh );
     
-    axis = new THREE.Line(axis(), axisMaterial);
+    axis = new THREE.Line(make_axis(), axisMaterial);
     scene.add( axis );
     
-    axisLabels = axisLabels(axisPts[1], axisPts[2], axisPts[3], axisPts[4]);
+    axisLabels = make_axisLabels(axisPts[1], axisPts[2], axisPts[3], axisPts[4]);
     for(var i = 0; i < axisLabels.length; ++i) {
     	scene.add(axisLabels[i]);
     }
@@ -291,7 +291,7 @@ function init() {
 
     //setup GUI
     
-    gui = gui();
+    gui = make_gui();
     gui.add( parameters, 'reset' ).name("Reset");
     gui.open();
 }
@@ -308,7 +308,7 @@ function resetLattice()
     
 }      
 
-function gui() {
+function make_gui() {
     var _gui = new dat.GUI();
     
     var cPlanesGUI = _gui.addFolder('C Planes');
