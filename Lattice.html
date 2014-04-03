@@ -152,7 +152,8 @@ function init() {
         rPlane.faces.push( new THREE.Face3( 2, 3, 0 ) );
         rPlane.computeBoundingSphere();
     
-
+    
+    //Return geometry object with axes
     function axis() {
     	var y = vertices[7].y;
     	var bottom = new THREE.Vector3(0,y,0);
@@ -180,48 +181,46 @@ function init() {
     	return geometry;	
     }
     
+    // Pass in positions of axis labels
+    // Return array with labels
     function axisLabels(a0, a1, a2, c) {
-    
-    	var cTextGeo = new THREE.TextGeometry("c", {
-    							size:.25,
-    							height:.01,
-    							bevelEnabled:false
-    							
-    						});
+    	
+    	var axisLabels = [];
+    	var attrDict = { size:.25,
+    			 height:.01,
+    			 bevelEnabled:false
+    			};
+    			
+    	var axisMaterial = new THREE.LineBasicMaterial({
+        	color: 0x7F00FF, //purple
+        	opacity: .5,
+        	linewidth: 3
+        });
+        
+    	var cTextGeo = new THREE.TextGeometry("c", attrDict);
 	cTextGeo.computeBoundingBox();
 	cTextGeo.computeVertexNormals();
-	cTextGeo.position = c;
+	var cLabelMesh = new THREE.Mesh(cTextGeo, axisMaterial);
+	cLabelMesh.position = c;
+	axisLabels.push(cLabelMesh);
 	
-	var a0TextGeo = new THREE.TextGeometry("a0", {
-    							size:.25,
-    							height:.01,
-    							bevelEnabled:false
-    							
-    						});
-	a0TextGeo.position = a0;
-	var a1TextGeo = new THREE.TextGeometry("a1", {
-    							size:.25,
-    							height:.01,
-    							bevelEnabled:false
-    							
-    						});
-	var a1TextGeo = cTextGeo.clone();
-	a1TextGeo.position = a1;
+	var a0TextGeo = new THREE.TextGeometry("a0", attrDict);
+    						
+	var a0LabelMesh = new THREE.Mesh(a0TextGeo, axisMaterial);
+	a0LabelMesh.position = a0;
+	axisLabels.push(a0LabelMesh);
 	
-	var a2TextGeo = new THREE.TextGeometry("a2", {
-    							size:.25,
-    							height:.01,
-    							bevelEnabled:false
-    							
-    						});
-	var a2TextGeo = cTextGeo.clone();
-	a2TextGeo.position = a2;
+	var a1TextGeo = new THREE.TextGeometry("a1", attrDict);
+	var a1LabelMesh = new THREE.Mesh(a1TextGeo, axisMaterial);
+	a1LabelMesh.position = a1;
+	axisLabels.push(a1LabelMesh);
 	
-    	THREE.GeometryUtils.merge(cTextGeo, a0TextGeo);
-    	THREE.GeometryUtils.merge(cTextGeo, a1TextGeo);
-    	THREE.GeometryUtils.merge(cTextGeo, a2TextGeo);
-    	
-    	return cTextGeo;
+	var a2TextGeo = new THREE.TextGeometry("a2", attrDict);
+	var a2LabelMesh = new THREE.Mesh(a1TextGeo, axisMaterial);
+	a2LabelMesh.position = a2;
+	axisLabels.push(a2LabelMesh);
+
+    	return axisLabels;
     }
     
     var cMaterial = new THREE.MeshBasicMaterial( {
@@ -252,12 +251,7 @@ function init() {
 		transparent: false
 	} );
 	
-   var axisMaterial = new THREE.LineBasicMaterial({
-        color: 0x7F00FF, //purple
-        opacity: .5,
-        linewidth: 3
-        
-    });
+   
 	
     cPlaneMesh = new THREE.Mesh(cPlane, cMaterial );
     scene.add( cPlaneMesh );
@@ -272,13 +266,13 @@ function init() {
     scene.add( rPlaneMesh );
     
     var axis = new THREE.Line(axis(), axisMaterial);
-    var axisLabels = new THREE.Mesh(axisLabels(vertices[12],
-    						vertices[8], 
-    						vertices[10], 
-    						new THREE.Vector3(0,vertices[1].y,0)),
-    						axisMaterial);
-    THREE.GeometryUtils.merge(axis, axisLabels);
     scene.add( axis );
+    
+    var axisLabels = axisLabels();
+    for(var i = 0; i < axisLabels.length; ++i) {
+    	scene.add(axisLabels[i]);
+    }
+    
     
     
     //setup GUI
