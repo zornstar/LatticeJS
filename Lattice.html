@@ -81,7 +81,6 @@ function init() {
 		polygonOffsetFactor: 1,
 		polygonOffsetUnits: 1,
 		transparent: true,
-		opacity: 0
 	} );
 	// mesh
 	var LatticeMesh = new THREE.Mesh( Lattice, LatticeMaterial );
@@ -246,13 +245,13 @@ function init() {
 	cLabelMesh.position = c;
 	axisLabels.push(cLabelMesh);
 	
-	var a0TextGeo = new THREE.TextGeometry("a1", attrDict);
+	var a0TextGeo = new THREE.TextGeometry("a2", attrDict);
     						
 	var a0LabelMesh = new THREE.Mesh(a0TextGeo, axisMaterial);
 	a0LabelMesh.position = a0;
 	axisLabels.push(a0LabelMesh);
 	
-	var a1TextGeo = new THREE.TextGeometry("a2", attrDict);
+	var a1TextGeo = new THREE.TextGeometry("a1", attrDict);
 	var a1LabelMesh = new THREE.Mesh(a1TextGeo, axisMaterial);
 	a1LabelMesh.position = a1;
 	axisLabels.push(a1LabelMesh);
