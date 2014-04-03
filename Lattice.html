@@ -146,7 +146,7 @@ function init() {
 
 	rPlane.vertices.push( vertices[3] );
         rPlane.vertices.push( vertices[4] );
-        rPlane.vertices.push( vertices[13] );
+        rPlane.vertices.push( vertices[11] );
         rPlane.vertices.push( vertices[12] );
         rPlane.faces.push( new THREE.Face3( 0, 1, 2 ) );
         rPlane.faces.push( new THREE.Face3( 2, 3, 0 ) );
@@ -192,9 +192,9 @@ function init() {
     var y = vertices[7].y;
     
     var axisPts = [ new THREE.Vector3(0,y,0),
-    		    vertices[12].clone().multiplyScalar(1.2),
-    		    vertices[8].clone().multiplyScalar(1.2),
-    		    vertices[10].clone().multiplyScalar(1.2),
+    		    vertices[12].clone().multiplyScalar(1.2).setY(y),
+    		    vertices[8].clone().multiplyScalar(1.2).setY(y),
+    		    vertices[10].clone().multiplyScalar(1.2).setY(y),
     		    new THREE.Vector3(0,vertices[1].y,0).multiplyScalar(1.2)
     	];
     //Return geometry object with axes
