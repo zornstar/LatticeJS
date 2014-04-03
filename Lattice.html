@@ -250,19 +250,19 @@ function init() {
     						
 	var a0LabelMesh = new THREE.Mesh(a0TextGeo, axisMaterial);
 	a0LabelMesh.position = a0;
-	a0LabelMesh.rotation.u -= Math.PI/6;
+	a0LabelMesh.rotation.y -= Math.PI/6;
 	_axisLabels.push(a0LabelMesh);
 	
 	var a1TextGeo = new THREE.TextGeometry("a1", attrDict);
 	var a1LabelMesh = new THREE.Mesh(a1TextGeo, axisMaterial);
 	a1LabelMesh.position = a1;
-	a1LabelMesh.rotation.u -= Math.PI/6;
+	a1LabelMesh.rotation.y -= Math.PI/6;
 	_axisLabels.push(a1LabelMesh);
 	
 	var a2TextGeo = new THREE.TextGeometry("a3", attrDict);
 	var a2LabelMesh = new THREE.Mesh(a2TextGeo, axisMaterial);
 	a2LabelMesh.position = a2;
-	a2LabelMesh.rotation.u -= Math.PI/6;
+	a2LabelMesh.rotation.y -= Math.PI/6;
 	_axisLabels.push(a2LabelMesh);
 
     	return _axisLabels;
