@@ -25,6 +25,7 @@ var gui, parameters;
 var renderer, scene, camera, controls;
 var aPlaneMesh, cPlaneMesh, mPlaneMesh, rPlaneMesh;
 var egh;
+var axis, axisLabels;
 
 init();
 animate();
@@ -279,10 +280,10 @@ function init() {
     rPlaneMesh = new THREE.Mesh(rPlane, rMaterial );
     scene.add( rPlaneMesh );
     
-    var axis = new THREE.Line(axis(), axisMaterial);
+    axis = new THREE.Line(axis(), axisMaterial);
     scene.add( axis );
     
-    var axisLabels = axisLabels(axisPts[1], axisPts[2], axisPts[3], axisPts[4]);
+    axisLabels = axisLabels(axisPts[1], axisPts[2], axisPts[3], axisPts[4]);
     for(var i = 0; i < axisLabels.length; ++i) {
     	scene.add(axisLabels[i]);
     }
@@ -355,14 +356,25 @@ function gui() {
     var axisVisible = _gui.add( parameters, 'axisVisible' ).name('Axis').listen();
 	axisVisible.onChange(function(value) 
 	{   
-	if(value) scene.add( axis );
-        
-        else scene.remove( axis );
+	toggleAxis(value);
     
     });
     
     return _gui;
     
+}
+
+fuction toggleAxis(value) {
+
+ 	if(value)  	scene.add(axis);
+    	else		scene.remove(axis);
+    	
+    for(var i = 0; i < axisLabels.length; ++i) {
+    	
+    	if(value)  	scene.add(axisLabels[i]);
+    	else		scene.remove(axisLabels[i] );
+    }
+    	
 }
 
 function update()
