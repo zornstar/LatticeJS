@@ -278,10 +278,10 @@ function init() {
     	var _axisCones = [];
     	
     	  //make cones
-    	var cCone = new THREE.CylinderGeometry(0, .333, .444, 20, 5);
-        var cConeMeshe = new THREE.Mesh(cCone, axisMaterial);
+    	var cCone = new THREE.CylinderGeometry(0, .02, .04, 1, 1);
+        var cConeMesh = new THREE.Mesh(cCone, axisMaterial);
         cCone.position = c;
-        _axisCones.push(cCone);
+        _axisCones.push(cConeMesh);
         
         return _axisCones;
         
