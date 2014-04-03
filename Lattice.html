@@ -251,7 +251,7 @@ function init() {
 	var a0LabelMesh = new THREE.Mesh(a0TextGeo, axisMaterial);
 	a0LabelMesh.position = a0;
 	a0LabelMesh.rotation.u += Math.PI/6;
-	axisLabels.push(a0LabelMesh);
+	_axisLabels.push(a0LabelMesh);
 	
 	var a1TextGeo = new THREE.TextGeometry("a1", attrDict);
 	var a1LabelMesh = new THREE.Mesh(a1TextGeo, axisMaterial);
