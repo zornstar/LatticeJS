@@ -85,8 +85,6 @@ function init() {
 	} );
 	// mesh
 	var LatticeMesh = new THREE.Mesh( Lattice, LatticeMaterial );
-	LatticeMesh.doubleSided = true;
-	scene.add( LatticeMesh );
 
 	// helper
 	egh = new THREE.EdgesHelper( LatticeMesh, 0xFFFFFF );
