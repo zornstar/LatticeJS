@@ -243,26 +243,26 @@ function init() {
 	cTextGeo.computeVertexNormals();
 	var cLabelMesh = new THREE.Mesh(cTextGeo, axisMaterial);
 	cLabelMesh.position = c;
-	cLabelMesh.rotation.x += Math.PI/6;
+	cLabelMesh.rotation.y += Math.PI/6;
 	axisLabels.push(cLabelMesh);
 	
 	var a0TextGeo = new THREE.TextGeometry("a2", attrDict);
     						
 	var a0LabelMesh = new THREE.Mesh(a0TextGeo, axisMaterial);
 	a0LabelMesh.position = a0;
-	a0LabelMesh.rotation.x += Math.PI/6;
+	a0LabelMesh.rotation.u += Math.PI/6;
 	axisLabels.push(a0LabelMesh);
 	
 	var a1TextGeo = new THREE.TextGeometry("a1", attrDict);
 	var a1LabelMesh = new THREE.Mesh(a1TextGeo, axisMaterial);
 	a1LabelMesh.position = a1;
-	a1LabelMesh.rotation.x += Math.PI/6;
+	a1LabelMesh.rotation.u += Math.PI/6;
 	axisLabels.push(a1LabelMesh);
 	
 	var a2TextGeo = new THREE.TextGeometry("a3", attrDict);
 	var a2LabelMesh = new THREE.Mesh(a2TextGeo, axisMaterial);
 	a2LabelMesh.position = a2;
-	a2LabelMesh.rotation.x += Math.PI/6;
+	a2LabelMesh.rotation.u += Math.PI/6;
 	axisLabels.push(a2LabelMesh);
 
     	return axisLabels;
@@ -321,7 +321,7 @@ function gui() {
         		aPlaneVisible: true,
         		mPlaneVisible: true,
         		rPlaneVisible: true,
-        		axisVisible: false,
+        		axisVisible: true,
 			reset: function() { resetLattice() }
 		};
     var cPlaneVisible = cPlanesGUI.add( parameters, 'cPlaneVisible' ).name('C Plane').listen();
