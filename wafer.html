@@ -59,7 +59,7 @@ function init() {
 	camera.position.set( -4, 2, 8 );
 
 	// controls
-	controls = new THREE.OrbitControls( camera );
+	controls = new THREE.OrbitControls( camera, renderer.domElement );
 	controls.minDistance = 5;
 	controls.maxDistance = 20;
 	
