@@ -114,13 +114,13 @@ function init() {
     function gan_mesa_meshes() {
         
         var meshes = [];
-        var cube = new THREE.CubeGeometry( 1.5, .6, 1.5 );
+        var cube = new THREE.CubeGeometry( 1.5, .7, 1.5 );
         
        
         for(var x = -8; x < 8; x=x+3) {
             for(var z = -8; z < 8; z=z+3) {
             	var mesh = new THREE.Mesh( cube, gan_material );
-               	mesh.position.y -= .25;
+               	mesh.position.y = 1;
                 mesh.position.z = z;
                 mesh.position.x = x;
                 meshes.push(mesh);
@@ -140,29 +140,42 @@ function init() {
     gui.open();
 }
 
-function show_sapphire_mesas(value) {
+function show_sapphire_mesas(value, visible) {
 	
 	for(var i = 0; i < sapphire_layers[1].length; ++i) {
 		
-		console.log(sapphire_layers[1][i]);
-		if(value) scene.add(sapphire_layers[1][i]);
+		var obj = sapphire_layers[1][i];
 		
-		else scene.remove(sapphire_layers[1][i]);
+		if(value) scene.add(obj);
+		
+		else scene.remove(obj);
 	}
 	
 }
 
-function show_gan_mesas(value) {
+function show_gan_mesas(value, visible) {
 	
 	for(var i = 0; i < gan_layers[1].length; ++i) {
 		
-		if(value) scene.add(gan_layers[1][i]);
+		var obj = gan_layers[1][i];
 		
-		else scene.remove(gan_layers[1][i]);
+		if(value) scene.add(obj);
+		
+		else scene.remove(obj);
 	}
 	
 }
 
+function hide_gan(value) {
+	
+	for(var i = 0; i < gan_layers[1].length; ++i) {
+		
+		gan_layers[1][i].visible = !value;
+	}
+	
+	gan_layers[0].visible = !value;
+	
+}
 
 
 function animate() {
@@ -179,8 +192,8 @@ function make_gui() {
     
     parameters = 	{
                 	filmSelection: "Prior Art",
-    			ganVisible: true,
-        		deviceVisible: true
+    			ganVisible: false,
+        		deviceVisible: false
     }
 
     var filmSelection = _gui.add(parameters, 'filmSelection', ["Prior Art", "Bluestone", "'557 Patent"] );
@@ -204,7 +217,7 @@ function make_gui() {
     	}
     	
     	if(value == "'557 Patent") {
-    		show_gan_mesas(true);
+    		show_gan_mesas(true, gui.ganVisible);
     		scene.remove(gan_layers[0]);
     	}
     	
@@ -212,23 +225,11 @@ function make_gui() {
     
     });
     
-    var ganVisible = _gui.add( parameters, 'ganVisible' ).name('Show/Hide GaN').listen();
-	ganVisible.onChange(function(value) 
-	{   
-        if(value) {
-        	//if 1
-        	//if 2
-        }
-        
-        else {
-        
-        }
-        
-        
-    });
+    var ganVisible = _gui.add( parameters, 'ganVisible' ).name('Hide GaN').listen();
+    ganVisible.onChange(function(value) {  hide_gan(value);  });
     
-    var deviceVisible = _gui.add( parameters, 'deviceVisible' ).name('Show/Hide Device').listen();
-	deviceVisible.onChange(function(value) 
+    var deviceVisible = _gui.add( parameters, 'deviceVisible' ).name('Hide Device').listen();
+    deviceVisible.onChange(function(value) 
 	{ 
 		
        
