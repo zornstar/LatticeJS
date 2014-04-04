@@ -95,10 +95,12 @@ function init() {
         
         var meshes = [];
         var cube = new THREE.CubeGeometry( 1.5, .75, 1.5 );
-        var mesh = new THREE.Mesh( cube, sapphire_material );
+        
        
         for(var x = -8; x < 8; x=x+3) {
             for(var z = -8; z < 8; z=z+3) {
+            	
+            	var mesh = new THREE.Mesh( cube, sapphire_material );
                 mesh.position = THREE.Vector3(x, -.5, z);
                 meshes.push(mesh);
             }
@@ -111,10 +113,11 @@ function init() {
         
         var meshes = [];
         var cube = new THREE.CubeGeometry( 1.5, .75, 1.5 );
-        var mesh = new THREE.Mesh( cube, gan_material );
+        
        
         for(var x = -8; x < 8; x=x+3) {
             for(var z = -8; z < 8; z=z+3) {
+            	var mesh = new THREE.Mesh( cube, gan_material );
                 mesh.position = THREE.Vector3(x, 0, z);
                 meshes.push(mesh);
             }
