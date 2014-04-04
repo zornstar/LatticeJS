@@ -296,7 +296,7 @@ function init() {
         var a2Cone = new THREE.CylinderGeometry(0, .03, .1, 40, 1, false);
         var a2ConeMesh = new THREE.Mesh(a2Cone, axisMaterial);
         a2ConeMesh.position = a2;
-        a2ConeMesh.lookAt(a2.clone().multiplyScalar(1.33).setY(y));
+        a2ConeMesh.lookAt(new THREE.Vector3(0,1,1));
         _axisCones.push(a2ConeMesh);
 
         return _axisCones;
