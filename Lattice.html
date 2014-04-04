@@ -235,10 +235,10 @@ function init() {
 	var cArrow = new THREE.ArrowHelper( new THREE.Vector3( 0, 1, 0 ), new THREE.Vector3( 0, 1, 0 ), 1, cPlaneColor );
 	plane_axes.push(cArrow);
 	
-	var aArrow = new THREE.ArrowHelper( new THREE.Vector3( 0, 0, 0 ), new THREE.Vector3( 1, 1, 0 ), 1, aPlaneColor );
+	var aArrow = new THREE.ArrowHelper( new THREE.Vector3( 0, 0, 0 ), new THREE.Vector3( 1, 0, 0 ), 1, aPlaneColor );
 	plane_axes.push(aArrow);
 	
-	var mArrow = new THREE.ArrowHelper( new THREE.Vector3( (vertices[5].x + vertices[6].x) / 2, 0, vertices[5].z ), new THREE.Vector3( (vertices[5].x + vertices[6].x) / 2, 0, vertices[5].z ), 1, mPlaneColor );
+	var mArrow = new THREE.ArrowHelper( new THREE.Vector3(0, 0, 0), new THREE.Vector3( (vertices[5].x + vertices[6].x) / 2, 0, vertices[5].z ), 1, mPlaneColor );
 	plane_axes.push(mArrow);
 	
 	var rArrow = new THREE.ArrowHelper( new THREE.Vector3( 0, 0, 0 ), new THREE.Vector3( -1, -1, 0 ), 1, rPlaneColor );
