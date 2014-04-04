@@ -184,26 +184,26 @@ function make_gui() {
     
     filmSelection.onChange(function(value) {
     	
-    /*
+    
     	
-    	if(mode == 0) {
+    	if(mode == "Prior Art") {
     		show_sapphire_mesas(true);
     	}
     	
-    	if(mode == 2) {
+    	if(mode == "'557 Patent") {
     		show_gan_mesas(false);
     	}
     	
-    	if(value == 0) {
+    	if(value == "Prior Art") {
     		show_sapphire_mesas(false);
     	}
     	
-    	if(value == 2) {
+    	if(value == "'557 Patent") {
     		show_sapphire_mesas(true);
     	}
     	
     	mode = value;
-    */
+    
     });
     
     var ganVisible = _gui.add( parameters, 'ganVisible' ).name('Show/Hide GaN').listen();
