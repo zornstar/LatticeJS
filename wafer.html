@@ -174,12 +174,12 @@ function make_gui() {
     
     
     parameters = 	{
-                	filmSelection: "a",
+                	filmSelection: "Prior Art",
     			ganVisible: true,
         		deviceVisible: true
     }
 
-    var filmSelection = _gui.add(parameters, 'filmSelection', ["a", "b", "c"] );
+    var filmSelection = _gui.add(parameters, 'filmSelection', ["Prior Art", "Bluestone", "'557 Patent"] );
     filmSelection.name('Film').listen();
     
     filmSelection.onChange(function(value) {
