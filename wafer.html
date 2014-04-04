@@ -101,7 +101,7 @@ function init() {
             for(var z = -8; z < 8; z=z+3) {
             	
             	var mesh = new THREE.Mesh( cube, sapphire_material );
-                mesh.position.y = .5;
+                mesh.position.y = -.5;
                 mesh.position.z = z;
                 mesh.position.x = x;
                 meshes.push(mesh);
@@ -130,7 +130,7 @@ function init() {
         return meshes;
     }
     
-    mode = 0;
+    mode = "Prior Art";
     
     sapphire_layers = [sapphire_layer, sapphire_mesa_meshes()];
     
@@ -196,6 +196,7 @@ function make_gui() {
     	
     	if(mode == "'557 Patent") {
     		show_gan_mesas(false);
+    		scene.add(gan_layers[0]);
     	}
     	
     	if(value == "Prior Art") {
@@ -204,6 +205,7 @@ function make_gui() {
     	
     	if(value == "'557 Patent") {
     		show_sapphire_mesas(true);
+    		scene.remove(gan_layers[0]);
     	}
     	
     	mode = value;
