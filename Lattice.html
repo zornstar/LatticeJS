@@ -224,8 +224,7 @@ function init() {
     	THREE.GeometryUtils.merge(geometry, geometry2);
     	THREE.GeometryUtils.merge(geometry, geometry3);
     	THREE.GeometryUtils.merge(geometry, geometry4);
-    	
-    	
+
         
     	return geometry;	
     }
@@ -233,12 +232,17 @@ function init() {
     function make_plane_axes() {
     	var plane_axes = [];
   	
-        var dir = new THREE.Vector3( 0, 1, 0 );
-	var origin = new THREE.Vector3( 0, 1, 0 );
-	var length = 1;
-	var hex = 0xffff00;
-	var arrow = new THREE.ArrowHelper( dir, origin, length, hex );
-	plane_axes.push(arrow);
+	var cArrow = new THREE.ArrowHelper( new THREE.Vector3( 0, 1, 0 ), new THREE.Vector3( 0, 1, 0 ), 1, cPlaneColor );
+	plane_axes.push(cArrow);
+	
+	var aArrow = new THREE.ArrowHelper( new THREE.Vector3( vertices[0].x, 0, 0 ), new THREE.Vector3( 1, 0, 0 ), 1, aPlaneColor );
+	plane_axes.push(aArrow);
+	
+	var mArrow = new THREE.ArrowHelper( new THREE.Vector3( 0, 0, vertices[5].z ), new THREE.Vector3( 0, 0, 1 ), 1, mPlaneColor );
+	plane_axes.push(mArrow);
+	
+	var rArrow = new THREE.ArrowHelper( new THREE.Vector3( 0, 0, 0 ), new THREE.Vector3( -1, -1, 0 ), 1, rPlaneColor );
+	plane_axes.push(rArrow);
 	
     	return plane_axes;	
     }
