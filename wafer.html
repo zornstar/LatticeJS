@@ -101,7 +101,7 @@ function init() {
             for(var z = -8; z < 8; z=z+3) {
             	
             	var mesh = new THREE.Mesh( cube, sapphire_material );
-                mesh.position = THREE.Vector3(x, -.5, z);
+                mesh.position = new THREE.Vector3(x, -.5, z);
                 meshes.push(mesh);
             }
         }
