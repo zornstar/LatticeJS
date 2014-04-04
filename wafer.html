@@ -129,7 +129,6 @@ function init() {
     mode = 0;
     
     sapphire_layers = [sapphire_layer, sapphire_mesa_meshes()];
-    show_sapphire_mesas(true);
     
     gan_layers = [gan_layer, gan_mesa_meshes()];
     
@@ -140,11 +139,11 @@ function init() {
 function show_sapphire_mesas(value) {
 	
 	for(var i = 0; i < sapphire_layers[1].length; ++i) {
-		/*
+		
 		console.log(sapphire_layers[1][i]);
 		if(value) scene.add(sapphire_layers[1][i]);
 		
-		else scene.remove(sapphire_layers[1][i]);*/
+		else scene.remove(sapphire_layers[1][i]);
 	}
 	
 }
@@ -175,12 +174,12 @@ function make_gui() {
     
     
     parameters = 	{
-                	film: 'Prior Art',
+                	film: [ 'Prior Art', 'Bluestone\'s Overbroad Construction', '\'557 Patent' ],
     			ganVisible: true,
         		deviceVisible: true
     }
 
-    var film = _gui.add(parameters, 'film', [ 'Prior Art', 'Bluestone\'s Overbroad Construction', '\'557 Patent' ] ).name("Film").listen();
+    var film = _gui.add(parameters, "film" ).name("Film").listen();
     
     film.onChange(function(value) {
     	
