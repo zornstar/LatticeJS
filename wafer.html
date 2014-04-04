@@ -180,11 +180,11 @@ function make_gui() {
     }
 
     var filmSelection = _gui.add(parameters, 'filmSelection', ["Prior Art", "Bluestone", "'557 Patent"] );
-    filmSelection.name('filmSelection').listen();
+    filmSelection.name('Film').listen();
     
     filmSelection.onChange(function(value) {
     	
-    
+    /*
     	
     	if(mode == 0) {
     		show_sapphire_mesas(true);
@@ -203,6 +203,7 @@ function make_gui() {
     	}
     	
     	mode = value;
+    */
     });
     
     var ganVisible = _gui.add( parameters, 'ganVisible' ).name('Show/Hide GaN').listen();
