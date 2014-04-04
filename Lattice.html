@@ -235,7 +235,7 @@ function init() {
 	var cArrow = new THREE.ArrowHelper( new THREE.Vector3( 0, 1, 0 ), new THREE.Vector3( 0, 1, 0 ), 1, cPlaneColor );
 	plane_axes.push(cArrow);
 	
-	var aArrow = new THREE.ArrowHelper( new THREE.Vector3( 0, 0, 0 ) , new THREE.Vector3( aPlane.vertices[0].x, 0, (aPlane.vertices[0].z + aPlane.vertices[2].z)/2 ), 1, aPlaneColor );
+	var aArrow = new THREE.ArrowHelper( new THREE.Vector3( aPlane.vertices[0].x*2, 0, 0 ) , new THREE.Vector3( aPlane.vertices[0].x, 0, (aPlane.vertices[0].z + aPlane.vertices[2].z)/2 ), 1, aPlaneColor );
 	aArrow.rotation.x = Math.PI/6;
 	plane_axes.push(aArrow);
 	
