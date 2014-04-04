@@ -125,13 +125,10 @@ function init() {
     
     mode = 0;
     
-    sapphire_layers[0] = sapphire_layer;
-    sapphire_layers[1] = sapphire_mesa_meshes();
-
+    sapphire_layers = [sapphire_layer, sapphire_mesa_meshes()];
     show_sapphire_mesas(true);
     
-    gan_layers[0] = gan_layer;
-    gan_layers[1] = gan_mesa_meshes();
+    gan_layers = [gan_layer, gan_mesa_meshes()];
     
     gui = make_gui();
     gui.open();
