@@ -299,8 +299,8 @@ function init() {
         var a2Cone = new THREE.CylinderGeometry(0, .03, .1, 40, 1, false);
         var a2ConeMesh = new THREE.Mesh(a2Cone, axisMaterial);
         a2ConeMesh.position = a2;
-        a1ConeMesh.rotation.y += Math.PI/4;
-        a1ConeMesh.rotation.x += Math.PI/2;
+        a2ConeMesh.rotation.y += Math.PI/4;
+        a2ConeMesh.rotation.x += Math.PI/2;
         a2ConeMesh.lookAt(new THREE.Vector3(0,1,1));
         _axisCones.push(a2ConeMesh);
 
