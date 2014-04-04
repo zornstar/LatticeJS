@@ -114,13 +114,13 @@ function init() {
     function gan_mesa_meshes() {
         
         var meshes = [];
-        var cube = new THREE.CubeGeometry( 1.5, .75, 1.5 );
+        var cube = new THREE.CubeGeometry( 1.5, .6, 1.5 );
         
        
         for(var x = -8; x < 8; x=x+3) {
             for(var z = -8; z < 8; z=z+3) {
             	var mesh = new THREE.Mesh( cube, gan_material );
-               	mesh.position.y = .5;
+               	mesh.position.y -= .25;
                 mesh.position.z = z;
                 mesh.position.x = x;
                 meshes.push(mesh);
