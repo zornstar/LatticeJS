@@ -1,0 +1,176 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <style>
+        body {
+        margin: 0px;
+        padding: 0px;
+      }
+    </style>
+  </head>
+  <body> 
+      
+    <div id="container"></div>
+    <script src="src/jquery-2.0.3.min.js"></script>
+    <script src="src/jquery-ui.min.js"></script>
+    <script src="src/three.min.js"></script>
+    <script src="src/EdgesHelper.js"></script>
+    <script src="src/OrbitControls.js"></script>
+    <script src="src/dat.gui.min.js"></script>
+    <script>
+
+        
+var gui, parameters;
+var renderer, scene, camera, controls;
+
+var gan_layers, sapphire_layers, device_layers;
+        
+init();
+animate();
+
+function init() {
+
+	// info
+	info = document.createElement( 'div' );
+	info.style.position = 'absolute';
+	info.style.top = '30px';
+	info.style.width = '100%';
+	info.style.textAlign = 'center';
+	info.style.color = '#fff';
+	info.style.fontWeight = 'bold';
+	info.style.backgroundColor = 'transparent';
+	info.style.zIndex = '1';
+	info.style.fontFamily = 'Monospace';
+	info.innerHTML = 'Lattice Demo';
+	document.body.appendChild( info );
+
+	// renderer
+	renderer = new THREE.WebGLRenderer( { antialias: true } );
+	renderer.setSize( window.innerWidth, window.innerHeight );
+	renderer.physicallyBasedShading = true;
+	document.body.appendChild( renderer.domElement );
+
+	// scene
+	scene = new THREE.Scene();
+	
+	// camera
+	camera = new THREE.PerspectiveCamera( 40, window.innerWidth / window.innerHeight, 0.1, 100 );
+	camera.position.set( -4, 2, 8 );
+
+	// controls
+	controls = new THREE.OrbitControls( camera );
+	controls.minDistance = 5;
+	controls.maxDistance = 20;
+	
+
+	// ambient
+	var spotLight = new THREE.HemisphereLight( 0xffffff );
+    spotLight.position = camera.position;
+    scene.add( spotLight );
+    
+    //sapphire
+    var sapphire_geometry = new THREE.CubeGeometry( 20, 1, 20 );
+    var sapphire_material = new THREE.MeshPhongMaterial( {
+        color: 0x0000ff,
+        tranparent: false
+        });
+    var sapphire_layer = new THREE.Mesh( sapphire_geometry, sapphire_material );
+    sapphire_layer.position.y -= 1;
+    scene.add( sapphire_layer );
+    
+    
+    var gan_geometry = new THREE.CubeGeometry( 20, .6, 20 );
+    var gan_material = new THREE.MeshBasicMaterial( {
+        color: 0xff0000,
+        transparent: true,
+        opacity: 0.5,
+        side: THREE.DoubleSide
+        });
+    gan_layer = new THREE.Mesh( gan_geometry, gan_material );
+    gan_layer.position.y -= .25;
+    scene.add( gan_layer );
+    
+    function sapphire_mesa_mesh() {
+        var meshes = [];
+        var cube = new THREE.CubeGeometry( 1.5, .75, 1.5 );
+        var mesh = new THREE.Mesh( cube, sapphire_material );
+       
+        for(var x = -8; x < 8; x=x+3) {
+            for(var z = -8; z < 8; z=z+3) {
+                mesh.position = THREE.Vector3(x, -.5, z);
+                meshes.push(mesh);
+            }
+        }
+        
+        return meshes;
+    }
+    
+    sapphire_layers[1] = sapphire_mesa_mesh();
+    
+    for(
+    
+    gui = make_gui();
+    gui.open();
+}
+
+function animate() {
+
+	requestAnimationFrame( animate );  
+	renderer.render( scene, camera );
+    update();
+}
+ 
+function make_gui() {
+    var _gui = new dat.GUI();
+    
+    
+    
+    parameters = 	{
+                film: 'Prior Art',
+    			ganVisible: true,
+        		deviceVisible: true
+    }
+
+    _gui.add(parameters, 'film', [ 'Prior Art', 'Bluestone\'s Overbroad Construction', '\'557 Patent' ] ).name("Film");
+    
+    var ganVisible = _gui.add( parameters, 'ganVisible' ).name('Show/Hide GaN').listen();
+	ganVisible.onChange(function(value) 
+	{   
+        if(value) scene.add( gan_layer );
+        
+        else scene.remove(gan_layer);
+        
+    });
+    
+    var deviceVisible = _gui.add( parameters, 'deviceVisible' ).name('Show/Hide Device').listen();
+	deviceVisible.onChange(function(value) 
+	{   
+        if(value) scene.add( device_layer );
+        
+        else scene.remove(device_layer);
+        
+    });
+    return _gui;
+    
+}      
+
+function update()
+{
+    /*
+	if ( keyboard.pressed("a") ) {
+    
+    }
+	if ( keyboard.pressed("m") ) {
+    
+    }
+	if ( keyboard.pressed("r") ) {
+    
+    }
+	*/
+    
+	controls.update();
+	//stats.update();
+}
+</script>
+  </body>
+</html>
