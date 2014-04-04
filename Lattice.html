@@ -294,7 +294,7 @@ function init() {
         var a1ConeMesh = new THREE.Mesh(a1Cone, axisMaterial);
         a1ConeMesh.position = a1;
         a1ConeMesh.rotation.z -= Math.PI/2;
-        a1ConeMesh.rotation.y -= 2*Math.PI/3;
+        a1ConeMesh.rotation.y -= Math.PI/2;
         _axisCones.push(a1ConeMesh);
         
         var a2Cone = new THREE.CylinderGeometry(0, .03, .1, 40, 1, false);
