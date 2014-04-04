@@ -278,11 +278,26 @@ function init() {
     	var _axisCones = [];
     	
     	  //make cones
-    	var cCone = new THREE.CylinderGeometry(0, .05, .1, 40, 1, false);
+    	var cCone = new THREE.CylinderGeometry(0, .03, .1, 40, 1, false);
         var cConeMesh = new THREE.Mesh(cCone, axisMaterial);
         cConeMesh.position = c;
         _axisCones.push(cConeMesh);
         
+        var a0Cone = new THREE.CylinderGeometry(0, .03, .1, 40, 1, false);
+        var a0ConeMesh = new THREE.Mesh(a0Cone, axisMaterial);
+        a0ConeMesh.position = a0;
+        _axisCones.push(a0ConeMesh);
+        
+        var a1Cone = new THREE.CylinderGeometry(0, .03, .1, 40, 1, false);
+        var a1ConeMesh = new THREE.Mesh(a1Cone, axisMaterial);
+        a1ConeMesh.position = a1;
+        _axisCones.push(a1ConeMesh);
+        
+        var a2Cone = new THREE.CylinderGeometry(0, .03, .1, 40, 1, false);
+        var a2ConeMesh = new THREE.Mesh(a2Cone, axisMaterial);
+        a2ConeMesh.position = a2;
+        _axisCones.push(a2ConeMesh);
+
         return _axisCones;
         
     }
