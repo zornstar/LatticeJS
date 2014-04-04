@@ -118,7 +118,7 @@ function init() {
         for(var x = -8; x < 8; x=x+3) {
             for(var z = -8; z < 8; z=z+3) {
             	var mesh = new THREE.Mesh( cube, gan_material );
-                mesh.position = THREE.Vector3(x, 0, z);
+                mesh.position = new THREE.Vector3(x, 0, z);
                 meshes.push(mesh);
             }
         }
