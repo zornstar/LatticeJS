@@ -41,8 +41,8 @@ function init() {
 	info.style.fontWeight = 'bold';
 	info.style.backgroundColor = 'transparent';
 	info.style.zIndex = '1';
-	info.style.fontFamily = 'Monospace';
-	info.innerHTML = 'Lattice Demo';
+	info.style.fontFamily = 'Helvetica';
+	info.innerHTML = 'Comparison of GaN Films ';
 	document.body.appendChild( info );
 
 	// renderer
@@ -120,7 +120,7 @@ function init() {
         for(var x = -8; x < 8; x=x+3) {
             for(var z = -8; z < 8; z=z+3) {
             	var mesh = new THREE.Mesh( cube, gan_material );
-               	mesh.position.y = .5;
+               	mesh.position.y = .375;
                 mesh.position.z = z;
                 mesh.position.x = x;
                 meshes.push(mesh);
