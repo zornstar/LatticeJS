@@ -24,6 +24,7 @@ var gui, parameters;
 var renderer, scene, camera, controls;
 
 var gan_layers, sapphire_layers, device_layers;
+var mode;
         
 init();
 animate();
@@ -90,7 +91,8 @@ function init() {
     gan_layer.position.y -= .25;
     scene.add( gan_layer );
     
-    function sapphire_mesa_mesh() {
+    function sapphire_mesa_meshes() {
+        
         var meshes = [];
         var cube = new THREE.CubeGeometry( 1.5, .75, 1.5 );
         var mesh = new THREE.Mesh( cube, sapphire_material );
@@ -105,19 +107,65 @@ function init() {
         return meshes;
     }
     
-    sapphire_layers[1] = sapphire_mesa_mesh();
+    function gan_mesa_meshes() {
+        
+        var meshes = [];
+        var cube = new THREE.CubeGeometry( 1.5, .75, 1.5 );
+        var mesh = new THREE.Mesh( cube, gan_material );
+       
+        for(var x = -8; x < 8; x=x+3) {
+            for(var z = -8; z < 8; z=z+3) {
+                mesh.position = THREE.Vector3(x, 0, z);
+                meshes.push(mesh);
+            }
+        }
+        
+        return meshes;
+    }
     
-    for(
+    mode = 0;
+    
+    sapphire_layers[0] = sapphire_layer;
+    sapphire_layers[1] = sapphire_mesa_meshes();
+
+    show_sapphire_mesas(true);
+    
+    gan_layers[0] = gan_layer;
+    gan_layers[1] = gan_mesa_meshes();
     
     gui = make_gui();
     gui.open();
 }
 
+function show_sapphire_mesas(value) {
+	
+	for(var i = 0; i < sapphire_layers[1].length; ++i) {
+		
+		if(value) scene.add(sapphire_layers[1][i]);
+		
+		else scene.remove(sapphire_layers[1][i]);
+	}
+	
+}
+
+function show_gan_mesas(value) {
+	
+	for(var i = 0; i < sapphire_layers[1].length; ++i) {
+		
+		if(value) scene.add(gan_layers[1][i]);
+		
+		else scene.remove(gan_layers[1][i]);
+	}
+	
+}
+
+
+
 function animate() {
 
 	requestAnimationFrame( animate );  
 	renderer.render( scene, camera );
-    update();
+	 update();
 }
  
 function make_gui() {
@@ -126,28 +174,56 @@ function make_gui() {
     
     
     parameters = 	{
-                film: 'Prior Art',
+                	film: 'Prior Art',
     			ganVisible: true,
         		deviceVisible: true
     }
 
-    _gui.add(parameters, 'film', [ 'Prior Art', 'Bluestone\'s Overbroad Construction', '\'557 Patent' ] ).name("Film");
+    var film = _gui.add(parameters, 'film', [ 'Prior Art', 'Bluestone\'s Overbroad Construction', '\'557 Patent' ] ).name("Film").listen();
+    
+    film.onChange(function(value)) {
+    	
+    
+    	
+    	if(mode == 0) {
+    		show_sapphire_mesas(true);
+    	}
+    	
+    	if(mode == 2) {
+    		show_gan_mesas(false);
+    	}
+    	
+    	if(value == 0) {
+    		show_sapphire_mesas(false);
+    	}
+    	
+    	if(value == 2) {
+    		show_sapphire_mesas(true);
+    	}
+    	
+    	mode = value;
+    }
     
     var ganVisible = _gui.add( parameters, 'ganVisible' ).name('Show/Hide GaN').listen();
 	ganVisible.onChange(function(value) 
 	{   
-        if(value) scene.add( gan_layer );
+        if(value) {
+        	//if 1
+        	//if 2
+        }
         
-        else scene.remove(gan_layer);
+        else {
+        
+        }
+        
         
     });
     
     var deviceVisible = _gui.add( parameters, 'deviceVisible' ).name('Show/Hide Device').listen();
 	deviceVisible.onChange(function(value) 
-	{   
-        if(value) scene.add( device_layer );
-        
-        else scene.remove(device_layer);
+	{ 
+		
+       
         
     });
     return _gui;
