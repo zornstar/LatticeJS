@@ -174,12 +174,12 @@ function make_gui() {
     
     
     parameters = 	{
-                	film: "Prior Art",
+                	film: 'Prior Art',
     			ganVisible: true,
         		deviceVisible: true
     }
 
-    var film = _gui.add(parameters, 'film', ['Prior Art', 'Bluestone\'s Overbroad Construction', '\'557 Patent'] ).name('Film').listen();
+    var film = _gui.add(parameters, 'film', ["Prior Art", "Bluestone's Overbroad Construction", "'557 Patent"] ).name('Film').listen();
     
     film.onChange(function(value) {
     	
