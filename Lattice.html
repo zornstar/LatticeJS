@@ -10,7 +10,7 @@
   </head>
   <body> 
       
-    <div id="container"></div>
+    <div id="demo-container"></div>
     <script src="src/jquery-2.0.3.min.js"></script>
     <script src="src/jquery-ui.min.js"></script>
     <script src="src/three.min.js"></script>
@@ -27,30 +27,36 @@ var aPlaneMesh, cPlaneMesh, mPlaneMesh, rPlaneMesh;
 var egh;
 var axis, axisCones, planeAxes;
 
+        
+//setup GUI    
+gui = make_gui();
+gui.open();
+        
 init();
 animate();
 
-function init() {
 
+function init() {
 	// info
 	info = document.createElement( 'div' );
 	info.style.position = 'absolute';
 	info.style.top = '30px';
 	info.style.width = '100%';
 	info.style.textAlign = 'center';
+	info.style.fontSize = 'x-large';
 	info.style.color = '#fff';
-	info.style.fontWeight = 'bold';
+	info.style.fontWeight = 'normal';
 	info.style.backgroundColor = 'transparent';
-	info.style.zIndex = '1';
-	info.style.fontFamily = 'Helvetica';
-	info.innerHTML = 'Unit Crystal Planes';
-	document.body.appendChild( info );
+	info.style.zIndex = '0';
+	info.style.fontFamily = 'Garamond';
+	info.innerHTML = 'Unit Crystal Demo';
+	document.getElementById("demo-container").appendChild( info );
 
 	// renderer
 	renderer = new THREE.WebGLRenderer( { antialias: true } );
 	renderer.setSize( window.innerWidth, window.innerHeight );
 	renderer.physicallyBasedShading = true;
-	document.body.appendChild( renderer.domElement );
+	document.getElementById("demo-container").appendChild( renderer.domElement );
 
 	// scene
 	scene = new THREE.Scene();
@@ -58,7 +64,8 @@ function init() {
 	// camera
 	camera = new THREE.PerspectiveCamera( 40, window.innerWidth / window.innerHeight, 0.1, 100 );
 	camera.position.set( -4, 2, 8 );
-
+    	window.addEventListener( 'resize', onWindowResize, false );
+    
 	// controls
 	controls = new THREE.OrbitControls( camera, renderer.domElement );
 	controls.minDistance = 5;
@@ -188,7 +195,7 @@ function init() {
     var axisMaterial = new THREE.LineBasicMaterial({
         	color: 0xFFFFFF, //white
         	opacity: .5,
-        	linewidth: 5
+        	linewidth: 2
     });
     
     
@@ -235,14 +242,14 @@ function init() {
 	var cArrow = new THREE.ArrowHelper( new THREE.Vector3( 0, 1, 0 ), new THREE.Vector3( 0, 1, 0 ), 1, cPlaneColor );
 	plane_axes.push(cArrow);
 	
-	var aArrow = new THREE.ArrowHelper( new THREE.Vector3( aPlane.vertices[0].x, 0, vertices[1].z ) , new THREE.Vector3( 0, 0, vertices[1].z ), 1, aPlaneColor );
+	var aArrow = new THREE.ArrowHelper( new THREE.Vector3( aPlane.vertices[0].x, 0, vertices[1].z ) , new THREE.Vector3( .5, 0, .25 ), 1, aPlaneColor );
 	aArrow.rotation.x = Math.PI/6;
 	plane_axes.push(aArrow);
 	
-	var mArrow = new THREE.ArrowHelper( new THREE.Vector3( 0, 0, 2*vertices[5].z ), new THREE.Vector3( 0, 0, vertices[5].z ), 1, mPlaneColor );
+	var mArrow = new THREE.ArrowHelper( new THREE.Vector3( -1, 0, 1.75 ), new THREE.Vector3( -.5, 0, .75 ), 1, mPlaneColor );
 	plane_axes.push(mArrow);
 	
-	var rArrow = new THREE.ArrowHelper( new THREE.Vector3( 0, Math.PI/4 , 0 ), new THREE.Vector3(0, 0, 0 ), 1, rPlaneColor );
+	var rArrow = new THREE.ArrowHelper( new THREE.Vector3( -1, .75 , 0 ), new THREE.Vector3(0, 0, 0 ), 1, rPlaneColor );
 	plane_axes.push(rArrow);
 	
     	return plane_axes;	
@@ -352,13 +359,6 @@ function init() {
     for(var i = 0; i < planeAxes.length; ++i) {
     	scene.add(planeAxes[i]);
     }
-    
-
-    //setup GUI
-    
-    gui = make_gui();
-    gui.add( parameters, 'reset' ).name("Reset");
-    gui.open();
 }
 
 function animate() {
@@ -367,27 +367,36 @@ function animate() {
 	renderer.render( scene, camera );
     	update();
 }
- 
-function resetLattice()
-{
-    
-}      
+       
 
 function make_gui() {
-    var _gui = new dat.GUI();
     
-    var cPlanesGUI = _gui.addFolder('C Planes');
-    var aPlanesGUI = _gui.addFolder('A Planes');
-    var mPlanesGUI = _gui.addFolder('M Planes');
-    var rPlanesGUI = _gui.addFolder('R Planes');
+    
+    
+    var _gui = new dat.GUI();
+    /*
+    dat.GUI.autoplace = false;
+    _gui.domElement.style.position = 'fixed';
+    _gui.domElement.style.top = '5 px';
+    _gui.domElement.style.right = '55 px';
+	document.getElementById('demo-container').appendChild( _gui.domElement );
+    */
+    var cPlanesGUI = _gui.addFolder('C');
+    var aPlanesGUI = _gui.addFolder('A');
+    var mPlanesGUI = _gui.addFolder('M');
+    var rPlanesGUI = _gui.addFolder('R');
     
     parameters = 	{
     			cPlaneVisible: true,
         		aPlaneVisible: true,
         		mPlaneVisible: true,
         		rPlaneVisible: true,
+                cAxisVisible: true,
+        		aAxisVisible: true,
+        		mAxisVisible: true,
+        		rAxisVisible: true,
         		axisVisible: true,
-			reset: function() { resetLattice() }
+			reset: function() { reset() }
 		};
     var cPlaneVisible = cPlanesGUI.add( parameters, 'cPlaneVisible' ).name('C Plane').listen();
 	cPlaneVisible.onChange(function(value) 
@@ -397,20 +406,52 @@ function make_gui() {
         else scene.remove(cPlaneMesh);
         
     });
-     var aPlaneVisible = aPlanesGUI.add( parameters, 'aPlaneVisible' ).name('A Plane').listen();
+    
+    var cAxisVisible = cPlanesGUI.add( parameters, 'cAxisVisible' ).name('C Axis').listen();
+	cAxisVisible.onChange(function(value) 
+	{   //c Plane
+        if(value) scene.add( planeAxes[0] );
+        
+        else scene.remove(planeAxes[0]);
+        
+    });
+    
+    
+    var aPlaneVisible = aPlanesGUI.add( parameters, 'aPlaneVisible' ).name('A').listen();
 	aPlaneVisible.onChange(function(value) 
 	{   
     	if(value) scene.add( aPlaneMesh );
         
         else scene.remove(aPlaneMesh);
     });
-     var mPlaneVisible = mPlanesGUI.add( parameters, 'mPlaneVisible' ).name('M Plane').listen();
+    
+    var aAxisVisible = aPlanesGUI.add( parameters, 'aAxisVisible' ).name('A Axis').listen();
+	aAxisVisible.onChange(function(value) 
+	{   //c Plane
+        if(value) scene.add( planeAxes[1] );
+        
+        else scene.remove(planeAxes[1]);
+        
+    });
+    
+    var mPlaneVisible = mPlanesGUI.add( parameters, 'mPlaneVisible' ).name('M Plane').listen();
 	mPlaneVisible.onChange(function(value) 
 	{   
     	if(value) scene.add( mPlaneMesh );
         
         else scene.remove(mPlaneMesh);
     });
+    
+    var mAxisVisible = mPlanesGUI.add( parameters, 'mAxisVisible' ).name('M Axis').listen();
+	mAxisVisible.onChange(function(value) 
+	{   //c Plane
+        if(value) scene.add( planeAxes[2] );
+        
+        else scene.remove(planeAxes[2]);
+        
+    });
+    
+    
     var rPlaneVisible = rPlanesGUI.add( parameters, 'rPlaneVisible' ).name('R Plane').listen();
 	rPlaneVisible.onChange(function(value) 
 	{   
@@ -418,12 +459,24 @@ function make_gui() {
         
         else scene.remove(rPlaneMesh);
     });
+    
+    var rAxisVisible = rPlanesGUI.add( parameters, 'rAxisVisible' ).name('R Axis').listen();
+	rAxisVisible.onChange(function(value) 
+	{   //c Plane
+        if(value) scene.add( planeAxes[3] );
+        
+        else scene.remove(planeAxes[3]);
+        
+    });
+    
+    
     var axisVisible = _gui.add( parameters, 'axisVisible' ).name('Axis').listen();
 	axisVisible.onChange(function(value) 
 	{   
 	toggleAxis(value);
     
     });
+    
     
     return _gui;
     
@@ -451,21 +504,19 @@ function toggleAxis(value) {
 
 function update()
 {
-    /*
-	if ( keyboard.pressed("a") ) {
-    
-    }
-	if ( keyboard.pressed("m") ) {
-    
-    }
-	if ( keyboard.pressed("r") ) {
-    
-    }
-	*/
-    
 	controls.update();
 	//stats.update();
 }
+        
+function onWindowResize(){
+
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+
+    renderer.setSize( window.innerWidth, window.innerHeight );
+
+}
+
 </script>
   </body>
 </html>
