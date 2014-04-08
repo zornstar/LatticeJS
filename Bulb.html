@@ -21,7 +21,7 @@
 
 			var loader = new THREE.ColladaLoader();
 			loader.options.convertUpAxis = true;
-			loader.load( 'https://rawgithub.com/zornstar/LatticeJS/master/assets/AB2_PLCC6_LED_STRAIGHT_WINGS3D.dae', function ( collada ) {
+			loader.load( 'assets/AB2_PLCC6_LED_STRAIGHT_WINGS3D.dae', function ( collada ) {
 
 				dae = collada.scene;
 				skin = collada.skins[ 0 ];
