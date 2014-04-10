@@ -1,0 +1,234 @@
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="src/foundation/css/foundation.min.css">
+    <link rel="stylesheet" type="text/css" href="css/pw.css">
+    <script src="src/jquery-2.0.3.min.js"></script>
+    <script src="src/foundation/foundation.min.js"></script>
+    <script src="src/foundation/js/modernizr.js"></script>
+  </head>
+  <body> 
+    
+    
+    <nav class="top-bar" data-topbar data-options="is_hover: false">
+        <section class="top-bar-section">
+            <ul class="left">
+                <li class="has-dropdown">
+                <a href="#">GaN on Sapphire Lattice</a>
+                <ul class="dropdown">
+                    <li><a href="unitcrystal.html">Unit Crystal</a></li>
+                    <li><a href="wafer.html">Sapphire Mesas</a></li>
+                    <li><a href="dimple.html">Dimpled Substrate</a></li>
+                </ul>
+            </ul>
+        </section>
+    </nav>
+    <div id="demo-container"></div> <!-- insert the animation here -->
+    
+    <!-- begin javascript -->
+    
+    
+    <script src="src/jquery-ui.min.js"></script>
+    <script src="src/three.min.js"></script>
+    <script src="src/EdgesHelper.js"></script>
+    <script src="src/OrbitControls.js"></script>
+    <script src="src/dat.gui.min.js"></script>
+    <script src="src/BufferGeometry.js"></script>
+    <script src="src/math/Matrix4.js"></script>
+    <script src="src/KeyboardState.js"></script>
+    <script src="src/BufferGeometryUtils.js"></script>
+    <script src="src/fonts/helvetiker_regular.typeface.js"></script>
+    <script>
+        $(document).foundation();
+    </script>
+    <script>
+
+        
+var gui, parameters;
+var renderer, scene, camera, controls;
+var sapphire_lattice, gan_lattice;
+var crack;
+        
+var clock = new THREE.Clock();
+        
+init();
+animate();     
+        
+function init() {
+
+
+	// renderer
+	renderer = new THREE.WebGLRenderer( { antialias: true } );
+	renderer.setSize( window.innerWidth, window.innerHeight );
+	document.getElementById("demo-container").appendChild( renderer.domElement );
+
+	// scene
+	scene = new THREE.Scene();
+	
+	// camera
+	// camera
+	camera = new THREE.PerspectiveCamera( 40, window.innerWidth / window.innerHeight, 0.1, 100 );
+	camera.position.set( 0, 5, 20 );
+
+	// controls
+	controls = new THREE.OrbitControls( camera, renderer.domElement );
+	controls.minDistance = 5;
+	controls.maxDistance = 40;
+    
+	// controls
+	controls = new THREE.OrbitControls( camera );
+    //controls.addEventListener( 'change', render );
+    
+    
+	// ambient
+	scene.add( new THREE.AmbientLight( 0x222222 ) );
+	
+	// light
+	var light = new THREE.PointLight( 0x222222, 0.8 );
+	light.position = camera.position;
+	scene.add( light );
+     
+    var positions = new Array();
+    var colors = new Array();
+    var indices = new Array();
+
+    var material = new THREE.LineBasicMaterial({ vertexColors: true , linewidth:2});
+    
+    function draw_hex_lattice(size, lattice_rotation, mesh_rotation, start, end, color, obj) {
+        var Lattice = new THREE.CylinderGeometry( 1*size, 1*size, 2*size, 6, 1, false );
+        Lattice.applyMatrix(lattice_rotation);
+        var geometry = new THREE.BufferGeometry();
+        positions[obj] = new Array();
+        colors[obj] = new Array();
+        indices[obj] = new Array();
+        
+        
+        function add_vertex(x, y, z) {
+				positions[obj].push(x, y, z);
+				colors[obj].push(color.x, color.y, color.z);
+        }
+        
+        var idx = 0;
+        function make_lattice(p, o) {
+            
+            for(var i = 0; i < Lattice.vertices.length; ++i) {
+                add_vertex(Lattice.vertices[i].x+p.x, Lattice.vertices[i].y+p.y, Lattice.vertices[i].z+p.z, color);
+            }
+            
+            indices[obj].push(idx, idx+1);
+            indices[obj].push(idx+1, idx+2);
+            indices[obj].push(idx+2, idx+3);
+            indices[obj].push(idx+3, idx+4);
+            indices[obj].push(idx+4, idx+5);
+            indices[obj].push(idx+5, idx);
+            //indices_array.push(idx+6, idx+7);
+            indices[obj].push(idx+7, idx+8);
+            indices[obj].push(idx+8, idx+9);
+            indices[obj].push(idx+9, idx+10);
+            indices[obj].push(idx+10, idx+11);
+            indices[obj].push(idx+11, idx+12);
+            indices[obj].push(idx+12, idx+7);
+            
+            indices[obj].push(idx, idx+7);
+            indices[obj].push(idx+1, idx+8);
+            indices[obj].push(idx+2, idx+9);
+            indices[obj].push(idx+3, idx+10);
+            indices[obj].push(idx+4, idx+11);
+            indices[obj].push(idx+5, idx+12);
+            idx=idx+Lattice.vertices.length;
+        }
+        
+        var r = Lattice.radiusTop;
+        var a = r*Math.cos(Math.PI/6);
+        var b = r*Math.sin(Math.PI/6);
+        var h = Lattice.height;
+        
+       for(var z = start.z, s=0; z < end.z; z=z+b+r, ++s) {
+         	
+       		for(var x = start.x; x < end.x; x=x+2*a) {
+           		
+           		for(var y = start.y; y < end.y; y=y+h) {
+           		
+                    		
+                    		make_lattice(new THREE.Vector3(x+(s%2)*a, y, z), obj);
+                	}
+            	}
+        }
+        
+        geometry.addAttribute( 'position', Float32Array, positions[obj].length, 3 );
+        geometry.attributes.position.array = new Float32Array(positions[obj]);
+        geometry.addAttribute( 'color', Float32Array, colors[obj].length, 3 );
+        geometry.attributes.color.array = new Float32Array(colors[obj]);
+        geometry.addAttribute( 'index', Uint16Array, indices[obj].length, 1 );
+        geometry.attributes.index.array = new Uint16Array(indices[obj]);
+        geometry.offsets = [ {start:0, index:0, count:indices[obj].length} ];
+        geometry.computeBoundingSphere();
+        var mesh = new THREE.Line( geometry, material, THREE.LinePieces);
+        mesh.rotation.x = mesh_rotation.x;
+        mesh.rotation.y = mesh_rotation.y;
+        mesh.rotation.z = mesh_rotation.z;
+        scene.add(mesh);
+        return mesh;
+    }
+       
+    function make_crack(start, end) {
+        
+        
+        for(var z = start, s=0; z < end; z=z+b+r, ++s) {
+         	
+       		
+        }
+        
+        return crack;
+        
+        
+        
+    }
+      //fix to account for rotations
+      
+      //radius = lattice constant, GaN lattice constant = .319, Sapphire = .476
+    sapphire_lattice = draw_hex_lattice(1.4921/4, new THREE.Matrix4().makeRotationY(2*Math.PI/6), new THREE.Vector3(0, 0, 0), new THREE.Vector3(-10, -.5, -10), new THREE.Vector3(10, .5, 10), new THREE.Vector3(.25, .25, 1), 0);
+    gan_lattice = draw_hex_lattice(1/4, new THREE.Matrix4().makeRotationY(2*Math.PI/6), new THREE.Vector3(0, -Math.PI/2, 0), new THREE.Vector3(-10, 1, -10), new THREE.Vector3(10, 1.5, 10), new THREE.Vector3(1, .25, .25), 0);
+    controls.update();
+}
+
+        
+function render() {
+    renderer.render( scene, camera );
+}
+  
+function animate() {
+
+	requestAnimationFrame( animate );  
+	renderer.render( scene, camera );
+    update();
+}
+        
+function rotateCamera(x, y) {
+    camera.rotation.x+=y/360;
+    camera.rotation.y+=x/360;
+}
+        
+function update()
+{
+    keyboard.update();
+    
+	if( keyboard.pressed("W") ) rotateCamera(0,1);
+    if( keyboard.pressed("S") ) rotateCamera(0,-1);
+    if( keyboard.pressed("A") ) rotateCamera(1,0);
+    if( keyboard.pressed("D") ) rotateCamera(-1,0);
+    
+    if( keyboard.pressed("shift") ) camera.lookAt(new THREE.Vector3(0,0,0));
+	
+	//stats.update();
+}
+        
+function onWindowResize() {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize( window.innerWidth, window.innerHeight );
+    controls.handleResize();
+    render();
+}
+</script>
+  </body>
+</html>
