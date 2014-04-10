@@ -1,22 +1,42 @@
 <!DOCTYPE HTML>
 <html>
   <head>
-    <style>
-        body {
-        margin: 0px;
-        padding: 0px;
-      }
-    </style>
+    <link rel="stylesheet" type="text/css" href="src/foundation/css/foundation.min.css">
+    <link rel="stylesheet" type="text/css" href="css/pw.css">
+    <script src="src/jquery-2.0.3.min.js"></script>
+    <script src="src/foundation/foundation.min.js"></script>
+    <script src="src/foundation/js/modernizr.js"></script>
   </head>
   <body> 
-      
-    <div id="container"></div>
-    <script src="src/jquery-2.0.3.min.js"></script>
+    
+    
+    <nav class="top-bar" data-topbar data-options="is_hover: false">
+        <section class="top-bar-section">
+            <ul class="left">
+                <li class="has-dropdown">
+                <a href="#">Sapphire Mesas</a>
+                <ul class="dropdown">
+                    <li><a href="unitcrystal.html">Unit Crystal</a></li>
+                    <li><a href="lattice.html">GaN on Sapphire Lattice</a></li>
+                    <li><a href="dimple.html">Dimpled Substrate</a></li>
+                </ul>
+            </ul>
+        </section>
+    </nav>
+    <div id="demo-container"></div> <!-- insert the animation here -->
+    
+    <!-- begin javascript -->
+    
+    
     <script src="src/jquery-ui.min.js"></script>
     <script src="src/three.min.js"></script>
     <script src="src/EdgesHelper.js"></script>
     <script src="src/OrbitControls.js"></script>
     <script src="src/dat.gui.min.js"></script>
+    <script src="src/fonts/helvetiker_regular.typeface.js"></script>
+    <script>
+        $(document).foundation();
+    </script>
     <script>
 
         
@@ -24,7 +44,7 @@ var gui, parameters;
 var renderer, scene, camera, controls;
 
 var gan_layers, sapphire_layers, device_layers;
-var mode;
+var mode, info;
         
 init();
 animate();
@@ -37,31 +57,32 @@ function init() {
 	info.style.top = '30px';
 	info.style.width = '100%';
 	info.style.textAlign = 'center';
+	info.style.fontSize = 'x-large';
 	info.style.color = '#fff';
-	info.style.fontWeight = 'bold';
+	info.style.fontWeight = 'normal';
 	info.style.backgroundColor = 'transparent';
-	info.style.zIndex = '1';
-	info.style.fontFamily = 'Helvetica';
-	info.innerHTML = 'Comparison of GaN Films ';
-	document.body.appendChild( info );
+	info.style.zIndex = '0';
+	info.style.fontFamily = 'Garamond';
+	info.innerHTML = "Prior Art";
+	document.getElementById("demo-container").appendChild( info );
 
 	// renderer
 	renderer = new THREE.WebGLRenderer( { antialias: true } );
 	renderer.setSize( window.innerWidth, window.innerHeight );
 	renderer.physicallyBasedShading = true;
-	document.body.appendChild( renderer.domElement );
+	document.getElementById("demo-container").appendChild( renderer.domElement );
 
 	// scene
 	scene = new THREE.Scene();
 	
 	// camera
 	camera = new THREE.PerspectiveCamera( 40, window.innerWidth / window.innerHeight, 0.1, 100 );
-	camera.position.set( -4, 2, 8 );
+	camera.position.set( 0, 5, 20 );
 
 	// controls
 	controls = new THREE.OrbitControls( camera, renderer.domElement );
 	controls.minDistance = 5;
-	controls.maxDistance = 20;
+	controls.maxDistance = 40;
 	
 
 	// ambient
@@ -80,7 +101,7 @@ function init() {
     scene.add( sapphire_layer );
     
     
-    var gan_geometry = new THREE.CubeGeometry( 20, .6, 20 );
+    var gan_geometry = new THREE.CubeGeometry( 20, 1, 20 );
     var gan_material = new THREE.MeshBasicMaterial( {
         color: 0xff0000,
         transparent: true,
@@ -88,53 +109,38 @@ function init() {
         side: THREE.DoubleSide
         });
     gan_layer = new THREE.Mesh( gan_geometry, gan_material );
-    gan_layer.position.y -= .25;
+    gan_layer.position.y -= 0;
     scene.add( gan_layer );
     
-    function sapphire_mesa_meshes() {
+    function mesa_mesh(y, rotation, material) {
         
-        var meshes = [];
-        var cube = new THREE.CubeGeometry( 1.5, .75, 1.5 );
-        
-       
-        for(var x = -8; x < 8; x=x+3) {
-            for(var z = -8; z < 8; z=z+3) {
-            	
-            	var mesh = new THREE.Mesh( cube, sapphire_material );
-                mesh.position.y = -.5;
+        var geo = new THREE.Geometry();
+        var cube = new THREE.CubeGeometry( 1, .5, 2 );
+
+        for(var x = -6.5; x < 6.5; x=x+1.5) {
+            for(var z = -6.5; z < 6.5; z=z+2.5) {
+            	var mesh = new THREE.Mesh( cube, material );
+               	mesh.position.y = y;
                 mesh.position.z = z;
                 mesh.position.x = x;
-                meshes.push(mesh);
+                THREE.GeometryUtils.merge(geo, mesh);
             }
         }
         
-        return meshes;
-    }
-    
-    function gan_mesa_meshes() {
         
-        var meshes = [];
-        var cube = new THREE.CubeGeometry( 1.5, .7, 1.5 );
-        
-       
-        for(var x = -8; x < 8; x=x+3) {
-            for(var z = -8; z < 8; z=z+3) {
-            	var mesh = new THREE.Mesh( cube, gan_material );
-               	mesh.position.y = .225;
-                mesh.position.z = z;
-                mesh.position.x = x;
-                meshes.push(mesh);
-            }
-        }
-        
-        return meshes;
+        var geoMesh = new THREE.Mesh( geo, material );
+        geoMesh.rotation.y = rotation;
+        return geoMesh;
     }
     
     mode = "Prior Art";
     
-    sapphire_layers = [sapphire_layer, sapphire_mesa_meshes()];
+    var sapphire_mesa_mesh = mesa_mesh(-.4, -Math.PI/3, sapphire_material);
+    var gan_mesa_mesh = mesa_mesh(.1, -Math.PI/3, gan_material);
     
-    gan_layers = [gan_layer, gan_mesa_meshes()];
+    sapphire_layers = [sapphire_layer, sapphire_mesa_mesh];
+    
+    gan_layers = [gan_layer, gan_mesa_mesh];
     
     gui = make_gui();
     gui.open();
@@ -142,27 +148,17 @@ function init() {
 
 function show_sapphire_mesas(value, visible) {
 	
-	for(var i = 0; i < sapphire_layers[1].length; ++i) {
+	if(value) scene.add(sapphire_layers[1]);
 		
-		var obj = sapphire_layers[1][i];
-		
-		if(value) scene.add(obj);
-		
-		else scene.remove(obj);
-	}
+    else scene.remove(sapphire_layers[1]);
 	
 }
 
 function show_gan_mesas(value, visible) {
 	
-	for(var i = 0; i < gan_layers[1].length; ++i) {
+    if(value) scene.add(gan_layers[1]);
 		
-		var obj = gan_layers[1][i];
-		
-		if(value) scene.add(obj);
-		
-		else scene.remove(obj);
-	}
+    else scene.remove(gan_layers[1]);
 	
 }
 
@@ -191,17 +187,16 @@ function make_gui() {
     
     
     parameters = 	{
-                	filmSelection: "Prior Art",
-    			ganVisible: false,
-        		deviceVisible: false
+                filmSelection: "Prior Art",
     }
 
-    var filmSelection = _gui.add(parameters, 'filmSelection', ["Prior Art", "Bluestone", "'557 Patent"] );
+    var filmSelection = _gui.add(parameters, 'filmSelection', ["Prior Art", "'557 Patent"] );
     filmSelection.name('Film');
     
     filmSelection.onChange(function(value) {
     	
-    
+        
+	   info.innerHTML = value;
     	
     	if(mode == "Prior Art") {
     		show_sapphire_mesas(true);
@@ -225,16 +220,6 @@ function make_gui() {
     
     });
     
-    var ganVisible = _gui.add( parameters, 'ganVisible' ).name('Hide GaN').listen();
-    ganVisible.onChange(function(value) {  hide_gan(value);  });
-    
-    var deviceVisible = _gui.add( parameters, 'deviceVisible' ).name('Hide Device').listen();
-    deviceVisible.onChange(function(value) 
-	{ 
-		
-       
-        
-    });
     return _gui;
     
 }      
@@ -256,6 +241,7 @@ function update()
 	controls.update();
 	//stats.update();
 }
+
 </script>
   </body>
 </html>
