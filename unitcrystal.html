@@ -1,0 +1,708 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <style>
+        body {
+        margin: 0px;
+        padding: 0px;
+        background-color: white;
+      }
+    </style>
+  </head>
+  <body> 
+      
+    <div id="demo-container" style="background-color: white;"></div>
+    <script src="src/jquery-2.0.3.min.js"></script>
+    <script src="src/jquery-ui.min.js"></script>
+    <script src="src/three.min.js"></script>
+    <script src="src/EdgesHelper.js"></script>
+    <script src="src/OrbitControls.js"></script>
+    <script src="src/dat.gui.min.js"></script>
+    <script src="src/fonts/helvetiker_regular.typeface.js"></script>
+    <script>
+
+        
+var gui, parameters;
+var renderer, scene, camera, controls;
+var cPlaneMesh = [], aPlaneMesh = [], mPlaneMesh = [];
+var rPlaneMesh;
+var egh;
+var axis, axisCones, planeAxes;
+
+        
+//setup GUI    
+gui = make_gui();
+gui.open();
+        
+init();
+animate();
+
+
+function init() {
+	// info
+	info = document.createElement( 'div' );
+	info.style.position = 'absolute';
+	info.style.top = '30px';
+	info.style.width = '100%';
+	info.style.textAlign = 'center';
+	info.style.fontSize = 'x-large';
+	info.style.color = '#000';
+	info.style.fontWeight = 'normal';
+	info.style.backgroundColor = 'transparent';
+	info.style.zIndex = '0';
+	info.style.fontFamily = 'Garamond';
+	info.innerHTML = 'Unit Crystal Demo';
+	document.getElementById("demo-container").appendChild( info );
+
+	// renderer
+	renderer = new THREE.WebGLRenderer( { antialias: true } );
+	renderer.setSize( window.innerWidth, window.innerHeight );
+	renderer.physicallyBasedShading = true;
+    renderer.setClearColor(0xFFFFFF, 1);
+	document.getElementById("demo-container").appendChild( renderer.domElement );
+
+	// scene
+	scene = new THREE.Scene();
+
+	// camera
+	camera = new THREE.PerspectiveCamera( 40, window.innerWidth / window.innerHeight, 0.1, 100 );
+	camera.position.set( -2, 1, 6 );
+    window.addEventListener( 'resize', onWindowResize, false );
+    
+	// controls
+	controls = new THREE.OrbitControls( camera, renderer.domElement );
+	controls.minDistance = 5;
+	controls.maxDistance = 20;
+
+
+	// ambient
+	scene.add( new THREE.AmbientLight( 0x222222 ) );
+
+	// light
+	var light = new THREE.PointLight( 0x222222, 0.8 );
+	light.position = camera.position;
+	scene.add( light );
+
+	// Unit Cell
+	var Lattice = new THREE.CylinderGeometry( 1, 1, 2, 6, 1, false );
+	Lattice.applyMatrix( new THREE.Matrix4().makeTranslation( 0, 0, 0 ) );
+	var LatticeMaterial = new THREE.MeshBasicMaterial( {
+		shading: THREE.FlatShading,
+		polygonOffset: true,
+		polygonOffsetFactor: 1,
+		polygonOffsetUnits: 1,
+		transparent: true,
+		opacity: 0
+	} );
+	// mesh
+	var LatticeMesh = new THREE.Mesh( Lattice, LatticeMaterial );
+
+	// helper
+	egh = new THREE.EdgesHelper( LatticeMesh, 0x000000 );
+	egh.material.transparent = true;
+	egh.material.linewidth = 3;
+	scene.add( egh );
+
+	var vertices = Lattice.vertices;											       
+
+	//c planes
+	var cPlaneColor = new THREE.Color( 0xFFFF00 );       
+    var c1Plane = new THREE.Geometry();
+	c1Plane.applyMatrix( new THREE.Matrix4().makeTranslation( 0, 0, 0 ) );
+	c1Plane.vertices.push( vertices[0] );
+    c1Plane.vertices.push( vertices[1] );
+    c1Plane.vertices.push( vertices[2] );
+    c1Plane.vertices.push( vertices[3] );
+    c1Plane.vertices.push( vertices[4] );
+    c1Plane.vertices.push( vertices[5] );
+    c1Plane.faces.push( new THREE.Face3( 0, 1, 2 ) );
+    c1Plane.faces.push( new THREE.Face3( 0, 2, 3) );
+    c1Plane.faces.push( new THREE.Face3( 0, 3, 4) );
+    c1Plane.faces.push( new THREE.Face3( 0, 4, 5) );
+    c1Plane.computeBoundingSphere();
+    
+    var c2Plane = new THREE.Geometry();
+	c2Plane.applyMatrix( new THREE.Matrix4().makeTranslation( 0, 0, 0 ) );
+	c2Plane.vertices.push( vertices[7] );
+    c2Plane.vertices.push( vertices[8] );
+    c2Plane.vertices.push( vertices[9] );
+    c2Plane.vertices.push( vertices[10] );
+    c2Plane.vertices.push( vertices[11] );
+    c2Plane.vertices.push( vertices[12] );
+    c2Plane.faces.push( new THREE.Face3( 0, 1, 2 ) );
+    c2Plane.faces.push( new THREE.Face3( 0, 2, 3) );
+    c2Plane.faces.push( new THREE.Face3( 0, 3, 4) );
+    c2Plane.faces.push( new THREE.Face3( 0, 4, 5) );
+    c2Plane.computeBoundingSphere();
+    
+
+        //a plane
+	var aPlaneColor = new THREE.Color( 0x00FF00 );       
+    
+    var a1Plane = new THREE.Geometry();
+	a1Plane.applyMatrix( new THREE.Matrix4().makeTranslation( 0, 0, 0 ) );
+	a1Plane.vertices.push( vertices[2] );
+    a1Plane.vertices.push( vertices[0] );
+    a1Plane.vertices.push( vertices[7] );
+    a1Plane.vertices.push( vertices[9] );
+    a1Plane.faces.push( new THREE.Face3( 0, 1, 2 ) );
+    a1Plane.faces.push( new THREE.Face3( 2, 3, 0 ) );
+    a1Plane.computeBoundingSphere();
+    
+    var a2Plane = new THREE.Geometry();
+	a2Plane.applyMatrix( new THREE.Matrix4().makeTranslation( 0, 0, 0 ) );
+	a2Plane.vertices.push( vertices[3] );
+    a2Plane.vertices.push( vertices[1] );
+    a2Plane.vertices.push( vertices[8] );
+    a2Plane.vertices.push( vertices[10] );
+    a2Plane.faces.push( new THREE.Face3( 0, 1, 2 ) );
+    a2Plane.faces.push( new THREE.Face3( 2, 3, 0 ) );
+    a2Plane.computeBoundingSphere();
+    
+    var a3Plane = new THREE.Geometry();
+	a3Plane.applyMatrix( new THREE.Matrix4().makeTranslation( 0, 0, 0 ) );
+	a3Plane.vertices.push( vertices[4] );
+    a3Plane.vertices.push( vertices[2] );
+    a3Plane.vertices.push( vertices[9] );
+    a3Plane.vertices.push( vertices[11] );
+    a3Plane.faces.push( new THREE.Face3( 0, 1, 2 ) );
+    a3Plane.faces.push( new THREE.Face3( 2, 3, 0 ) );
+    a3Plane.computeBoundingSphere();
+    
+    var a4Plane = new THREE.Geometry();
+	a4Plane.applyMatrix( new THREE.Matrix4().makeTranslation( 0, 0, 0 ) );
+	a4Plane.vertices.push( vertices[5] );
+    a4Plane.vertices.push( vertices[3] );
+    a4Plane.vertices.push( vertices[10] );
+    a4Plane.vertices.push( vertices[12] );
+    a4Plane.faces.push( new THREE.Face3( 0, 1, 2 ) );
+    a4Plane.faces.push( new THREE.Face3( 2, 3, 0 ) );
+    a4Plane.computeBoundingSphere();
+    
+    var a5Plane = new THREE.Geometry();
+	a5Plane.applyMatrix( new THREE.Matrix4().makeTranslation( 0, 0, 0 ) );
+	a5Plane.vertices.push( vertices[6] );
+    a5Plane.vertices.push( vertices[4] );
+    a5Plane.vertices.push( vertices[11] );
+    a5Plane.vertices.push( vertices[7] );
+    a5Plane.faces.push( new THREE.Face3( 0, 1, 2 ) );
+    a5Plane.faces.push( new THREE.Face3( 2, 3, 0 ) );
+    a5Plane.computeBoundingSphere();
+    
+    var a6Plane = new THREE.Geometry();
+	a6Plane.applyMatrix( new THREE.Matrix4().makeTranslation( 0, 0, 0 ) );
+	a6Plane.vertices.push( vertices[1] );
+    a6Plane.vertices.push( vertices[5] );
+    a6Plane.vertices.push( vertices[12] );
+    a6Plane.vertices.push( vertices[8] );
+    a6Plane.faces.push( new THREE.Face3( 0, 1, 2 ) );
+    a6Plane.faces.push( new THREE.Face3( 2, 3, 0 ) );
+    a6Plane.computeBoundingSphere();
+        
+    //m plane
+	var mPlaneColor = new THREE.Color( 0x0000FF );       
+    
+    var m1Plane = new THREE.Geometry();
+	m1Plane.applyMatrix( new THREE.Matrix4().makeTranslation( 0, 0, 0 ) );
+	m1Plane.vertices.push( vertices[5] );
+    m1Plane.vertices.push( vertices[6] );
+    m1Plane.vertices.push( vertices[7] );
+    m1Plane.vertices.push( vertices[12] );
+    m1Plane.faces.push( new THREE.Face3( 0, 1, 2 ) );
+    m1Plane.faces.push( new THREE.Face3( 2, 3, 0 ) );
+    m1Plane.computeBoundingSphere();
+    
+    var m2Plane = new THREE.Geometry();
+	m2Plane.applyMatrix( new THREE.Matrix4().makeTranslation( 0, 0, 0 ) );
+	m2Plane.vertices.push( vertices[6] );
+    m2Plane.vertices.push( vertices[1] );
+    m2Plane.vertices.push( vertices[8] );
+    m2Plane.vertices.push( vertices[7] );
+    m2Plane.faces.push( new THREE.Face3( 0, 1, 2 ) );
+    m2Plane.faces.push( new THREE.Face3( 2, 3, 0 ) );
+    m2Plane.computeBoundingSphere();
+    
+    var m3Plane = new THREE.Geometry();
+	m3Plane.applyMatrix( new THREE.Matrix4().makeTranslation( 0, 0, 0 ) );
+	m3Plane.vertices.push( vertices[1] );
+    m3Plane.vertices.push( vertices[2] );
+    m3Plane.vertices.push( vertices[9] );
+    m3Plane.vertices.push( vertices[8] );
+    m3Plane.faces.push( new THREE.Face3( 0, 1, 2 ) );
+    m3Plane.faces.push( new THREE.Face3( 2, 3, 0 ) );
+    m3Plane.computeBoundingSphere();
+    
+    var m4Plane = new THREE.Geometry();
+	m4Plane.applyMatrix( new THREE.Matrix4().makeTranslation( 0, 0, 0 ) );
+	m4Plane.vertices.push( vertices[2] );
+    m4Plane.vertices.push( vertices[3] );
+    m4Plane.vertices.push( vertices[10] );
+    m4Plane.vertices.push( vertices[9] );
+    m4Plane.faces.push( new THREE.Face3( 0, 1, 2 ) );
+    m4Plane.faces.push( new THREE.Face3( 2, 3, 0 ) );
+    m4Plane.computeBoundingSphere();
+    
+    var m5Plane = new THREE.Geometry();
+	m5Plane.applyMatrix( new THREE.Matrix4().makeTranslation( 0, 0, 0 ) );
+	m5Plane.vertices.push( vertices[3] );
+    m5Plane.vertices.push( vertices[4] );
+    m5Plane.vertices.push( vertices[11] );
+    m5Plane.vertices.push( vertices[10] );
+    m5Plane.faces.push( new THREE.Face3( 0, 1, 2 ) );
+    m5Plane.faces.push( new THREE.Face3( 2, 3, 0 ) );
+    m5Plane.computeBoundingSphere();
+    
+    var m6Plane = new THREE.Geometry();
+	m6Plane.applyMatrix( new THREE.Matrix4().makeTranslation( 0, 0, 0 ) );
+	m6Plane.vertices.push( vertices[4] );
+    m6Plane.vertices.push( vertices[5] );
+    m6Plane.vertices.push( vertices[12] );
+    m6Plane.vertices.push( vertices[11] );
+    m6Plane.faces.push( new THREE.Face3( 0, 1, 2 ) );
+    m6Plane.faces.push( new THREE.Face3( 2, 3, 0 ) );
+    m6Plane.computeBoundingSphere();
+        
+        //r plane
+	var rPlaneColor = new THREE.Color( 0xd3d3d3 );       
+        var rPlane = new THREE.Geometry();
+	rPlane.applyMatrix( new THREE.Matrix4().makeTranslation( 0, 0, 0 ) );
+
+	rPlane.vertices.push( vertices[1] );
+        rPlane.vertices.push( vertices[2] );
+        rPlane.vertices.push( vertices[11] );
+        rPlane.vertices.push( vertices[12] );
+        rPlane.faces.push( new THREE.Face3( 0, 1, 2 ) );
+        rPlane.faces.push( new THREE.Face3( 2, 3, 0 ) );
+        rPlane.computeBoundingSphere();
+    
+    //Materials
+    var cMaterial = new THREE.MeshBasicMaterial( {
+		color: cPlaneColor,
+		shading: THREE.FlatShading,
+		side: THREE.DoubleSide,
+		transparent: true,
+		opacity: .5
+	} );
+
+    var aMaterial = new THREE.MeshBasicMaterial( {
+		color: aPlaneColor,
+		shading: THREE.FlatShading,
+		side: THREE.DoubleSide,
+		transparent: true,
+		opacity: .5
+	} );
+
+    var mMaterial = new THREE.MeshBasicMaterial( {
+		color: mPlaneColor,
+		shading: THREE.FlatShading,
+		side: THREE.DoubleSide,
+		transparent: true,
+		opacity: .5
+	} );
+
+    var rMaterial = new THREE.MeshBasicMaterial( {
+		color: rPlaneColor,
+		shading: THREE.FlatShading,
+		side: THREE.DoubleSide,
+		transparent: true,
+		opacity: .5
+	} );
+
+    
+    var axisMaterial = new THREE.LineBasicMaterial({
+        	color: 0x000000, //black
+        	opacity: .5,
+        	linewidth: 2
+    });
+    
+    
+    var y = vertices[7].y;
+    
+    var axisPts = [ new THREE.Vector3(0,y,0),
+    		    vertices[11].clone().multiplyScalar(1.33).setY(y),
+    		    vertices[7].clone().multiplyScalar(1.33).setY(y),
+    		    vertices[9].clone().multiplyScalar(1.33).setY(y),
+    		    new THREE.Vector3(0,vertices[1].y,0).multiplyScalar(1.33)
+    	];
+    //Return geometry object with axes
+    function make_axis() {
+    	var y = vertices[7].y;
+    	var bottom = new THREE.Vector3(0,y,0);
+    	
+    	var geometry = new THREE.Geometry();
+    	geometry.vertices.push(axisPts[1]);
+    	geometry.vertices.push(axisPts[0]);
+    	
+    	var geometry2 = new THREE.Geometry();
+    	geometry2.vertices.push(axisPts[2]);
+    	geometry2.vertices.push(axisPts[0]);
+    	
+    	var geometry3 = new THREE.Geometry();
+    	geometry3.vertices.push(axisPts[3]);
+    	geometry3.vertices.push(axisPts[0]);
+    	
+    	var geometry4 = new THREE.Geometry();
+    	geometry4.vertices.push(axisPts[4]);
+    	geometry4.vertices.push(axisPts[0]);
+    	
+    	THREE.GeometryUtils.merge(geometry, geometry2);
+    	THREE.GeometryUtils.merge(geometry, geometry3);
+    	THREE.GeometryUtils.merge(geometry, geometry4);
+
+        
+    	return geometry;	
+    }
+    
+    function make_plane_axes() {
+    	var plane_axes = [];
+  	
+	var cArrow = new THREE.ArrowHelper( new THREE.Vector3( 0, 1, 0 ), new THREE.Vector3( 0, 1, 0 ), 1, cPlaneColor );
+	plane_axes.push(cArrow);
+
+	var aArrow = new THREE.ArrowHelper( new THREE.Vector3( a1Plane.vertices[0].x, 0, vertices[1].z ) , new THREE.Vector3( .5, 0, .25 ), 1, aPlaneColor );
+	aArrow.rotation.x = Math.PI/6;
+	plane_axes.push(aArrow);
+
+	var mArrow = new THREE.ArrowHelper( new THREE.Vector3( -1, 0, 1.75 ), new THREE.Vector3( -.5, 0, .75 ), 1, mPlaneColor );
+	plane_axes.push(mArrow);
+
+	var rArrow = new THREE.ArrowHelper( new THREE.Vector3( -1, .75 , 0 ), new THREE.Vector3(0, 0, 0 ), 1, rPlaneColor );
+	plane_axes.push(rArrow);
+
+    	return plane_axes;	
+    }
+    
+    
+    // Pass in positions of axis labels
+    // Return array with labels
+    function make_axisLabels(a0, a1, a2, c) {
+    	
+    	var _axisLabels = [];
+    	var attrDict = { size:.15,
+    			 height:.01,
+    			 bevelEnabled:false
+    			};
+        
+        
+      
+    var cTextGeo = new THREE.TextGeometry("c", attrDict);
+	cTextGeo.computeBoundingBox();
+	cTextGeo.computeVertexNormals();
+	var cLabelMesh = new THREE.Mesh(cTextGeo, axisMaterial);
+	cLabelMesh.position = c;
+	cLabelMesh.rotation.y -= Math.PI/6;
+	_axisLabels.push(cLabelMesh);
+
+	var a0TextGeo = new THREE.TextGeometry("a2", attrDict);
+    						
+	var a0LabelMesh = new THREE.Mesh(a0TextGeo, axisMaterial);
+	a0LabelMesh.position = a0;
+	a0LabelMesh.rotation.y -= Math.PI/6;
+	_axisLabels.push(a0LabelMesh);
+
+	var a1TextGeo = new THREE.TextGeometry("a1", attrDict);
+	var a1LabelMesh = new THREE.Mesh(a1TextGeo, axisMaterial);
+	a1LabelMesh.position = a1;
+	a1LabelMesh.rotation.y -= Math.PI/6;
+	_axisLabels.push(a1LabelMesh);
+
+	var a2TextGeo = new THREE.TextGeometry("a3", attrDict);
+	var a2LabelMesh = new THREE.Mesh(a2TextGeo, axisMaterial);
+	a2LabelMesh.position = a2;
+	a2LabelMesh.rotation.y -= Math.PI/6;
+	_axisLabels.push(a2LabelMesh);
+
+    	return _axisLabels;
+    }
+
+
+    
+    function make_axisCones(a0, a1, a2, c) {
+    	var _axisCones = [];
+    	
+    	  //make cones
+    	var cCone = new THREE.CylinderGeometry(0, .03, .1, 40, 1, false);
+        var cConeMesh = new THREE.Mesh(cCone, axisMaterial);
+        cConeMesh.position = c;
+        _axisCones.push(cConeMesh);
+        
+        var a0Cone = new THREE.CylinderGeometry(0, .03, .1, 40, 1, false);
+        var a0ConeMesh = new THREE.Mesh(a0Cone, axisMaterial);
+        a0ConeMesh.position = a0;
+        a0ConeMesh.rotation.z += Math.PI/2;
+        a0ConeMesh.rotation.y -= Math.PI/6;
+        _axisCones.push(a0ConeMesh);
+        
+        var a1Cone = new THREE.CylinderGeometry(0, .03, .1, 40, 1, false);
+        var a1ConeMesh = new THREE.Mesh(a1Cone, axisMaterial);
+        a1ConeMesh.position = a1;
+        a1ConeMesh.rotation.z -= Math.PI/2;
+        a1ConeMesh.rotation.y -= Math.PI/2;
+        _axisCones.push(a1ConeMesh);
+        
+        var a2Cone = new THREE.CylinderGeometry(0, .03, .1, 40, 1, false);
+        var a2ConeMesh = new THREE.Mesh(a2Cone, axisMaterial);
+        a2ConeMesh.position = a2;
+        a2ConeMesh.rotation.z -= Math.PI/2;
+        a2ConeMesh.rotation.y += Math.PI/6;
+        _axisCones.push(a2ConeMesh);
+
+        return _axisCones;
+        
+    }
+    cPlaneMesh.push(new THREE.Mesh(c1Plane, cMaterial));
+    cPlaneMesh.push(new THREE.Mesh(c2Plane, cMaterial));
+    scene.add( cPlaneMesh[0] );
+    
+    aPlaneMesh.push(new THREE.Mesh(a1Plane, aMaterial));
+    aPlaneMesh.push(new THREE.Mesh(a2Plane, aMaterial));
+    aPlaneMesh.push(new THREE.Mesh(a3Plane, aMaterial));
+    aPlaneMesh.push(new THREE.Mesh(a4Plane, aMaterial));
+    aPlaneMesh.push(new THREE.Mesh(a5Plane, aMaterial));
+    aPlaneMesh.push(new THREE.Mesh(a6Plane, aMaterial));
+    scene.add( aPlaneMesh[0] );
+    
+    mPlaneMesh.push(new THREE.Mesh(m1Plane, mMaterial));
+    mPlaneMesh.push(new THREE.Mesh(m2Plane, mMaterial));
+    mPlaneMesh.push(new THREE.Mesh(m3Plane, mMaterial));
+    mPlaneMesh.push(new THREE.Mesh(m4Plane, mMaterial));
+    mPlaneMesh.push(new THREE.Mesh(m5Plane, mMaterial));
+    mPlaneMesh.push(new THREE.Mesh(m6Plane, mMaterial));
+    scene.add( mPlaneMesh[0] );;
+    
+    rPlaneMesh = new THREE.Mesh(rPlane, rMaterial );
+    scene.add( rPlaneMesh );
+    
+    axis = new THREE.Line(make_axis(), axisMaterial);
+    scene.add( axis );
+    
+    axisLabels = make_axisLabels(axisPts[1], axisPts[2], axisPts[3], axisPts[4]);
+    axisCones = make_axisCones(axisPts[1], axisPts[2], axisPts[3], axisPts[4]);
+    planeAxes = make_plane_axes();
+    for(var i = 0; i < axisLabels.length; ++i) {
+    	scene.add(axisLabels[i]);
+    	scene.add(axisCones[i]);
+    }
+    
+    for(var i = 0; i < planeAxes.length; ++i) {
+    	scene.add(planeAxes[i]);
+    }
+}
+
+function animate() {
+
+	requestAnimationFrame( animate );  
+	renderer.render( scene, camera );
+    	update();
+}
+       
+
+function make_gui() {
+    
+    
+    
+    var _gui = new dat.GUI();
+    /*
+    dat.GUI.autoplace = false;
+    _gui.domElement.style.position = 'fixed';
+    _gui.domElement.style.top = '5 px';
+    _gui.domElement.style.right = '55 px';
+	document.getElementById('demo-container').appendChild( _gui.domElement );
+    */
+    var cPlanesGUI = _gui.addFolder('C Planes');
+    var aPlanesGUI = _gui.addFolder('A Planes');
+    var mPlanesGUI = _gui.addFolder('M Planes');
+    var rPlanesGUI = _gui.addFolder('R Planes');
+    var axesGUI = _gui.addFolder('Axes');
+    parameters = 	{
+                allC: false,
+    			c1PlaneVisible: true,
+                c2PlaneVisible: false,
+                allA: false,
+                a1PlaneVisible: true,
+                a2PlaneVisible: false,
+                a3PlaneVisible: false,
+                a4PlaneVisible: false,
+                a5PlaneVisible: false,
+                a6PlaneVisible: false,
+                allM: false,
+        		m1PlaneVisible: true,
+        		m2PlaneVisible: false,
+        		m3PlaneVisible: false,
+        		m4PlaneVisible: false,
+        		m5PlaneVisible: false,
+        		m6PlaneVisible: false,
+                allM: false,
+        		rPlaneVisible: true,
+                cAxisVisible: true,
+        		aAxisVisible: true,
+        		mAxisVisible: true,
+        		rAxisVisible: true,
+        		axisVisible: true,
+			reset: function() { reset() }
+		};
+  
+  
+    var allC = cPlanesGUI.add( parameters, 'allC' ).name('All').listen();
+	allC.onChange(function(value) 
+       { for(var i = 0; i < cPlaneMesh.length; ++i) { if(value) scene.add( cPlaneMesh[i] ); else scene.remove(cPlaneMesh[i]); } });
+         
+    var c1PlaneVisible = cPlanesGUI.add( parameters, 'c1PlaneVisible' ).name('(0001)').listen();
+	c1PlaneVisible.onChange(function(value) 
+	   {   if(value) scene.add( cPlaneMesh[0] ); else scene.remove(cPlaneMesh[0]); });
+  
+  
+    var c1PlaneVisible = cPlanesGUI.add( parameters, 'c1PlaneVisible' ).name('(0001)').listen();
+	c1PlaneVisible.onChange(function(value) 
+	   {   if(value) scene.add( cPlaneMesh[0] ); else scene.remove(cPlaneMesh[0]); });
+    
+    var c2PlaneVisible = cPlanesGUI.add( parameters, 'c2PlaneVisible' ).name('(0001\u0305)').listen();
+	c2PlaneVisible.onChange(function(value) 
+	   {   if(value) scene.add( cPlaneMesh[1] ); else scene.remove(cPlaneMesh[1]); });
+    
+    var allA = aPlanesGUI.add( parameters, 'allA' ).name('All').listen();
+	allA.onChange(function(value) 
+       { for(var i = 0; i < aPlaneMesh.length; ++i) { if(value) scene.add( aPlaneMesh[i] ); else scene.remove(aPlaneMesh[i]); } });
+     
+    var a1PlaneVisible = aPlanesGUI.add( parameters, 'a1PlaneVisible' ).name('(112\u03050)').listen();
+	a1PlaneVisible.onChange(function(value) 
+	   {   if(value) scene.add( aPlaneMesh[0] ); else scene.remove(aPlaneMesh[0]); });
+    
+    var a2PlaneVisible = aPlanesGUI.add( parameters, 'a2PlaneVisible' ).name('(1\u030521\u03050)').listen();
+	a2PlaneVisible.onChange(function(value) 
+	   {   if(value) scene.add( aPlaneMesh[1] ); else scene.remove(aPlaneMesh[1]); });
+    
+    var a3PlaneVisible = aPlanesGUI.add( parameters, 'a3PlaneVisible' ).name('(2\u0305011)').listen();
+	a3PlaneVisible.onChange(function(value) 
+	   {   if(value) scene.add( aPlaneMesh[2] ); else scene.remove(aPlaneMesh[2]); });
+    
+    var a4PlaneVisible = aPlanesGUI.add( parameters, 'a4PlaneVisible' ).name('(1\u030501\u03052)').listen();
+	a4PlaneVisible.onChange(function(value) 
+	   {   if(value) scene.add( aPlaneMesh[3] ); else scene.remove(aPlaneMesh[3]); });
+    
+    var a5PlaneVisible = aPlanesGUI.add( parameters, 'a5PlaneVisible' ).name('(12\u030501)').listen();
+	a5PlaneVisible.onChange(function(value) 
+	   {   if(value) scene.add( aPlaneMesh[4] ); else scene.remove(aPlaneMesh[4]); });
+    
+    var a6PlaneVisible = aPlanesGUI.add( parameters, 'a6PlaneVisible' ).name('(21\u030501\u0305)').listen();
+	a6PlaneVisible.onChange(function(value) 
+	   {   if(value) scene.add( aPlaneMesh[5] ); else scene.remove(mPlaneMesh[5]); });
+    
+    var allM = mPlanesGUI.add( parameters, 'allM' ).name('All').listen();
+	allM.onChange(function(value) 
+        { for(var i = 0; i < mPlaneMesh.length; ++i) { if(value) scene.add( mPlaneMesh[i] ); else scene.remove(mPlaneMesh[i]); } });
+                  
+    var m1PlaneVisible = mPlanesGUI.add( parameters, 'm1PlaneVisible' ).name('(101\u03050)').listen();
+	m1PlaneVisible.onChange(function(value) 
+	   {   if(value) scene.add( mPlaneMesh[0] ); else scene.remove(mPlaneMesh[0]); });
+    
+    var m2PlaneVisible = mPlanesGUI.add( parameters, 'm2PlaneVisible' ).name('(011\u03050)').listen();
+	m2PlaneVisible.onChange(function(value) 
+	   {   if(value) scene.add( mPlaneMesh[1] ); else scene.remove(mPlaneMesh[1]); });
+    
+    var m3PlaneVisible = mPlanesGUI.add( parameters, 'm3PlaneVisible' ).name('(1\u0305100)').listen();
+	m3PlaneVisible.onChange(function(value) 
+	   {   if(value) scene.add( mPlaneMesh[2] ); else scene.remove(mPlaneMesh[2]); });
+    
+    var m4PlaneVisible = mPlanesGUI.add( parameters, 'm4PlaneVisible' ).name('(1\u0305010)').listen();
+	m4PlaneVisible.onChange(function(value) 
+	   {   if(value) scene.add( mPlaneMesh[3] ); else scene.remove(mPlaneMesh[3]); });
+    
+    var m5PlaneVisible = mPlanesGUI.add( parameters, 'm5PlaneVisible' ).name('(11\u030500)').listen();
+	m5PlaneVisible.onChange(function(value) 
+	   {   if(value) scene.add( mPlaneMesh[4] ); else scene.remove(mPlaneMesh[4]); });
+    
+    var m6PlaneVisible = mPlanesGUI.add( parameters, 'm6PlaneVisible' ).name('(101\u03050)').listen();
+	m6PlaneVisible.onChange(function(value) 
+	   {   if(value) scene.add( mPlaneMesh[5] ); else scene.remove(mPlaneMesh[5]); });
+    
+    
+    var cAxisVisible = axesGUI.add( parameters, 'cAxisVisible' ).name('C Axis').listen();
+	cAxisVisible.onChange(function(value) {   if(value) scene.add( planeAxes[0] ); else scene.remove(planeAxes[0]); });
+    
+    
+    
+    var aAxisVisible = axesGUI.add( parameters, 'aAxisVisible' ).name('A Axis').listen();
+	aAxisVisible.onChange(function(value)  {   if(value) scene.add( planeAxes[1] ); else scene.remove(planeAxes[1]); });
+    
+    
+    var mAxisVisible = axesGUI.add( parameters, 'mAxisVisible' ).name('M Axis').listen();
+	mAxisVisible.onChange(function(value) 
+	{   //c Plane
+        if(value) scene.add( planeAxes[2] );
+        
+        else scene.remove(planeAxes[2]);
+        
+    });
+    
+    
+    var rPlaneVisible = rPlanesGUI.add( parameters, 'rPlaneVisible' ).name('R Plane').listen();
+	rPlaneVisible.onChange(function(value) 
+	{   
+    	if(value) scene.add( rPlaneMesh );
+        
+        else scene.remove(rPlaneMesh);
+    });
+    
+    var rAxisVisible = axesGUI.add( parameters, 'rAxisVisible' ).name('R Axis').listen();
+	rAxisVisible.onChange(function(value) 
+	{   //c Plane
+        if(value) scene.add( planeAxes[3] );
+        
+        else scene.remove(planeAxes[3]);
+        
+    });
+    
+    
+    var axisVisible = axesGUI.add( parameters, 'axisVisible' ).name('Crystollographic').listen();
+	axisVisible.onChange(function(value) 
+	{   
+	toggleAxis(value);
+    
+    });
+    
+    
+    return _gui;
+    
+}
+        
+        
+
+function toggleAxis(value) {
+
+ 	if(value)  	scene.add(axis);
+    	else		scene.remove(axis);
+    	
+    for(var i = 0; i < axisLabels.length; ++i) {
+    	
+    	if(value)  	{
+    		scene.add(axisLabels[i]);
+    		scene.add(axisCones[i])
+    	}
+    	else		{
+    		scene.remove(axisLabels[i] );
+    		scene.remove(axisCones[i]);
+    	
+    	}
+    }
+    	
+}
+
+function update()
+{
+	controls.update();
+	//stats.update();
+}
+        
+function onWindowResize(){
+
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+
+    renderer.setSize( window.innerWidth, window.innerHeight );
+
+}
+
+</script>
+</body>
+</html>
