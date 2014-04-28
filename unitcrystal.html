@@ -556,10 +556,6 @@ function make_gui() {
 	c1PlaneVisible.onChange(function(value) 
 	   {   if(value) scene.add( cPlaneMesh[0] ); else scene.remove(cPlaneMesh[0]); });
     
-    var c2PlaneVisible = cPlanesGUI.add( parameters, 'c2PlaneVisible' ).name('(0001\u0305)').listen();
-	c2PlaneVisible.onChange(function(value) 
-	   {   if(value) scene.add( cPlaneMesh[1] ); else scene.remove(cPlaneMesh[1]); });
-    
     var allA = aPlanesGUI.add( parameters, 'allA' ).name('All').listen();
 	allA.onChange(function(value) 
        { for(var i = 0; i < aPlaneMesh.length; ++i) { if(value) scene.add( aPlaneMesh[i] ); else scene.remove(aPlaneMesh[i]); } });
