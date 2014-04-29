@@ -36,7 +36,7 @@ gui.open();
         
 init();
 animate();
-
+changeGUIColors();
 
 function init() {
 	// info
@@ -50,8 +50,8 @@ function init() {
 	info.style.fontWeight = 'normal';
 	info.style.backgroundColor = 'transparent';
 	info.style.zIndex = '0';
-	info.style.fontFamily = 'Garamond';
-	info.innerHTML = 'Unit Crystal Demo';
+	info.style.fontFamily = 'Calibri';
+	info.innerHTML = 'Wurtzite Crystal Planes';
 	document.getElementById("demo-container").appendChild( info );
 
 	// renderer
@@ -516,7 +516,7 @@ function make_gui() {
     var axesGUI = _gui.addFolder('Axes');
     parameters = 	{
                 allC: false,
-    		c1PlaneVisible: true,
+                c1PlaneVisible: true,
                 c2PlaneVisible: false,
                 allA: false,
                 a1PlaneVisible: true,
@@ -526,90 +526,109 @@ function make_gui() {
                 a5PlaneVisible: false,
                 a6PlaneVisible: false,
                 allM: false,
-        	m1PlaneVisible: true,
-        	m2PlaneVisible: false,
-        	m3PlaneVisible: false,
-        	m4PlaneVisible: false,
-        	m5PlaneVisible: false,
-        	m6PlaneVisible: false,
+                m1PlaneVisible: true,
+                m2PlaneVisible: false,
+                m3PlaneVisible: false,
+                m4PlaneVisible: false,
+                m5PlaneVisible: false,
+                m6PlaneVisible: false,
                 allM: false,
-        	rPlaneVisible: true,
+                rPlaneVisible: true,
                 cAxisVisible: true,
-        	aAxisVisible: true,
-        	mAxisVisible: true,
-        	rAxisVisible: true,
-        	axisVisible: true,
+                aAxisVisible: true,
+                mAxisVisible: true,
+                rAxisVisible: true,
+                axisVisible: true,
 		reset: function() { reset() }
 		};
   
+    var cPlanesVisible = [], aPlanesVisible = [], mPlanesVisible = [];
   
     var allC = cPlanesGUI.add( parameters, 'allC' ).name('All').listen();
 	allC.onChange(function(value) 
-       { for(var i = 0; i < cPlaneMesh.length; ++i) { if(value) scene.add( cPlaneMesh[i] ); else scene.remove(cPlaneMesh[i]); } });
+       { 
+           for(var i = 0; i < cPlaneMesh.length; ++i) { 
+               cPlanesVisible[i].setValue(value);
+               if(value) scene.add( cPlaneMesh[i] ); 
+               else scene.remove(cPlaneMesh[i]); 
+           } 
+       });
          
-    var c1PlaneVisible = cPlanesGUI.add( parameters, 'c1PlaneVisible' ).name('(0001)').listen();
-	c1PlaneVisible.onChange(function(value) 
+    cPlanesVisible.push( cPlanesGUI.add( parameters, 'c1PlaneVisible' ).name('(0001)').listen() );
+	cPlanesVisible[0].onChange(function(value) 
 	   {   if(value) scene.add( cPlaneMesh[0] ); else scene.remove(cPlaneMesh[0]); });
   
   
-    var c1PlaneVisible = cPlanesGUI.add( parameters, 'c1PlaneVisible' ).name('(0001)').listen();
-	c1PlaneVisible.onChange(function(value) 
+    cPlanesVisible.push( cPlanesGUI.add( parameters, 'c2PlaneVisible' ).name('(0001\u0305)').listen() );
+	cPlanesVisible[1].onChange(function(value) 
 	   {   if(value) scene.add( cPlaneMesh[0] ); else scene.remove(cPlaneMesh[0]); });
     
     var allA = aPlanesGUI.add( parameters, 'allA' ).name('All').listen();
 	allA.onChange(function(value) 
-       { for(var i = 0; i < aPlaneMesh.length; ++i) { if(value) scene.add( aPlaneMesh[i] ); else scene.remove(aPlaneMesh[i]); } });
+       { 
+           for(var i = 0; i < aPlaneMesh.length; ++i) { 
+               aPlanesVisible[i].setValue(value);
+               if(value) scene.add( aPlaneMesh[i] ); 
+               else scene.remove(aPlaneMesh[i]); 
+           } 
+       });
      
-    var a1PlaneVisible = aPlanesGUI.add( parameters, 'a1PlaneVisible' ).name('(112\u03050)').listen();
-	a1PlaneVisible.onChange(function(value) 
+    aPlanesVisible.push( aPlanesGUI.add( parameters, 'a1PlaneVisible' ).name('(112\u03050)').listen() );
+	aPlanesVisible[0].onChange(function(value) 
 	   {   if(value) scene.add( aPlaneMesh[0] ); else scene.remove(aPlaneMesh[0]); });
     
-    var a2PlaneVisible = aPlanesGUI.add( parameters, 'a2PlaneVisible' ).name('(1\u030521\u03050)').listen();
-	a2PlaneVisible.onChange(function(value) 
+    aPlanesVisible.push( aPlanesGUI.add( parameters, 'a2PlaneVisible' ).name('(1\u030521\u03050)').listen() );
+	aPlanesVisible[1].onChange(function(value) 
 	   {   if(value) scene.add( aPlaneMesh[1] ); else scene.remove(aPlaneMesh[1]); });
     
-    var a3PlaneVisible = aPlanesGUI.add( parameters, 'a3PlaneVisible' ).name('(2\u0305011)').listen();
-	a3PlaneVisible.onChange(function(value) 
+    aPlanesVisible.push( aPlanesGUI.add( parameters, 'a3PlaneVisible' ).name('(2\u0305011)').listen() );
+	aPlanesVisible[2].onChange(function(value) 
 	   {   if(value) scene.add( aPlaneMesh[2] ); else scene.remove(aPlaneMesh[2]); });
     
-    var a4PlaneVisible = aPlanesGUI.add( parameters, 'a4PlaneVisible' ).name('(1\u030501\u03052)').listen();
-	a4PlaneVisible.onChange(function(value) 
+    aPlanesVisible.push( aPlanesGUI.add( parameters, 'a4PlaneVisible' ).name('(1\u030501\u03052)').listen() );
+	aPlanesVisible[3].onChange(function(value) 
 	   {   if(value) scene.add( aPlaneMesh[3] ); else scene.remove(aPlaneMesh[3]); });
     
-    var a5PlaneVisible = aPlanesGUI.add( parameters, 'a5PlaneVisible' ).name('(12\u030501)').listen();
-	a5PlaneVisible.onChange(function(value) 
+    aPlanesVisible.push( aPlanesGUI.add( parameters, 'a5PlaneVisible' ).name('(12\u030501)').listen() );
+	aPlanesVisible[4].onChange(function(value) 
 	   {   if(value) scene.add( aPlaneMesh[4] ); else scene.remove(aPlaneMesh[4]); });
     
-    var a6PlaneVisible = aPlanesGUI.add( parameters, 'a6PlaneVisible' ).name('(21\u030501\u0305)').listen();
-	a6PlaneVisible.onChange(function(value) 
+    aPlanesVisible.push( aPlanesGUI.add( parameters, 'a6PlaneVisible' ).name('(21\u030501\u0305)').listen() );
+	aPlanesVisible[5].onChange(function(value) 
 	   {   if(value) scene.add( aPlaneMesh[5] ); else scene.remove(mPlaneMesh[5]); });
     
     var allM = mPlanesGUI.add( parameters, 'allM' ).name('All').listen();
 	allM.onChange(function(value) 
-        { for(var i = 0; i < mPlaneMesh.length; ++i) { if(value) scene.add( mPlaneMesh[i] ); else scene.remove(mPlaneMesh[i]); } });
+        { 
+            for(var i = 0; i < mPlaneMesh.length; ++i) { 
+                mPlanesVisible[i].setValue(value);
+                if(value) scene.add( mPlaneMesh[i] ); 
+                else scene.remove(mPlaneMesh[i]); } 
+        
+        });
                   
-    var m1PlaneVisible = mPlanesGUI.add( parameters, 'm1PlaneVisible' ).name('(101\u03050)').listen();
-	m1PlaneVisible.onChange(function(value) 
+    mPlanesVisible.push( mPlanesGUI.add( parameters, 'm1PlaneVisible' ).name('(101\u03050)').listen() );
+	mPlanesVisible[0].onChange(function(value) 
 	   {   if(value) scene.add( mPlaneMesh[0] ); else scene.remove(mPlaneMesh[0]); });
     
-    var m2PlaneVisible = mPlanesGUI.add( parameters, 'm2PlaneVisible' ).name('(011\u03050)').listen();
-	m2PlaneVisible.onChange(function(value) 
+    mPlanesVisible.push( mPlanesGUI.add( parameters, 'm2PlaneVisible' ).name('(011\u03050)').listen() );
+	mPlanesVisible[1].onChange(function(value) 
 	   {   if(value) scene.add( mPlaneMesh[1] ); else scene.remove(mPlaneMesh[1]); });
     
-    var m3PlaneVisible = mPlanesGUI.add( parameters, 'm3PlaneVisible' ).name('(1\u0305100)').listen();
-	m3PlaneVisible.onChange(function(value) 
+    mPlanesVisible.push( mPlanesGUI.add( parameters, 'm3PlaneVisible' ).name('(1\u0305100)').listen() );
+	mPlanesVisible[2].onChange(function(value) 
 	   {   if(value) scene.add( mPlaneMesh[2] ); else scene.remove(mPlaneMesh[2]); });
     
-    var m4PlaneVisible = mPlanesGUI.add( parameters, 'm4PlaneVisible' ).name('(1\u0305010)').listen();
-	m4PlaneVisible.onChange(function(value) 
+    mPlanesVisible.push( mPlanesGUI.add( parameters, 'm4PlaneVisible' ).name('(1\u0305010)').listen() );
+	mPlanesVisible[3].onChange(function(value) 
 	   {   if(value) scene.add( mPlaneMesh[3] ); else scene.remove(mPlaneMesh[3]); });
     
-    var m5PlaneVisible = mPlanesGUI.add( parameters, 'm5PlaneVisible' ).name('(11\u030500)').listen();
-	m5PlaneVisible.onChange(function(value) 
+    mPlanesVisible.push( mPlanesGUI.add( parameters, 'm5PlaneVisible' ).name('(11\u030500)').listen() );
+	mPlanesVisible[4].onChange(function(value) 
 	   {   if(value) scene.add( mPlaneMesh[4] ); else scene.remove(mPlaneMesh[4]); });
     
-    var m6PlaneVisible = mPlanesGUI.add( parameters, 'm6PlaneVisible' ).name('(101\u03050)').listen();
-	m6PlaneVisible.onChange(function(value) 
+    mPlanesVisible.push( mPlanesGUI.add( parameters, 'm6PlaneVisible' ).name('(101\u03050)').listen() );
+	mPlanesVisible[5].onChange(function(value) 
 	   {   if(value) scene.add( mPlaneMesh[5] ); else scene.remove(mPlaneMesh[5]); });
     
     
@@ -662,8 +681,6 @@ function make_gui() {
     
 }
         
-        
-
 function toggleAxis(value) {
 
  	if(value)  	scene.add(axis);
@@ -684,19 +701,33 @@ function toggleAxis(value) {
     	
 }
 
-function update()
-{
-	controls.update();
-	//stats.update();
+function changeGUIColors() {
+    $( ".boolean" ).each( function()  {
+        console.log(this);
+        var str = $(this).parent().children(".title").text();
+        if(str == "C Planes") this.style.borderLeftColor="yellow";
+        else if(str == "A Planes") this.style.borderLeftColor="green";
+        else if(str == "M Planes") this.style.borderLeftColor="blue";
+        else if(str == "R Planes") this.style.borderLeftColor="gray";
+        else this.style.borderLeftWidth = 0;
+    });
+    
+    $( ".property-name" ).each( function()  {
+        var str = $(this).text();
+        if(str == "C Axis") this.style.color="yellow";
+        else if(str == "A Axis") this.style.color="green";
+        else if(str == "M Axis") this.style.color="blue";
+        else if(str == "R Axis") this.style.color="gray";
+        else if(str == "Crystollographic") this.style.color="white";
+    });
 }
         
+function update() { controls.update(); }
+        
 function onWindowResize(){
-
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
-
     renderer.setSize( window.innerWidth, window.innerHeight );
-
 }
 
 </script>
