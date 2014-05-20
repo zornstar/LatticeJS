@@ -28,6 +28,12 @@ var cPlaneMesh = [], aPlaneMesh = [], mPlaneMesh = [], rPlaneMesh = [];
 var egh;
 var axis, axisCones, planeAxes;
 
+var colors = {
+	a: 0x8BCBA0,
+	c: 0xFFFF8C,
+	m: 0x82D2FA,
+	r: 0xC8C8C8
+}
         
 //setup GUI    
 gui = make_gui();
@@ -105,7 +111,7 @@ function init() {
 	var vertices = Lattice.vertices;											       
 
 	//c planes
-	var cPlaneColor = new THREE.Color( 0xFFFF8C );       
+	var cPlaneColor = new THREE.Color( colors.c );       
     var c1Plane = new THREE.Geometry();
 	c1Plane.applyMatrix( new THREE.Matrix4().makeTranslation( 0, 0, 0 ) );
 	c1Plane.vertices.push( vertices[0] );
@@ -136,7 +142,7 @@ function init() {
     
 
         //a plane
-	var aPlaneColor = new THREE.Color( 0x8BCBA0 );       
+	var aPlaneColor = new THREE.Color( colors.a );       
     
     var a1Plane = new THREE.Geometry();
 	a1Plane.applyMatrix( new THREE.Matrix4().makeTranslation( 0, 0, 0 ) );
@@ -770,20 +776,20 @@ function toggleAxis(value) {
 function changeGUIColors() {
     $( ".boolean" ).each( function()  {
         var str = $(this).parent().children(".title").text();
-        if(str == "C Planes") this.style.borderLeftColor="#FFFFCC";
-        else if(str == "A Planes") this.style.borderLeftColor="#A1D5B2";
-        else if(str == "M Planes") this.style.borderLeftColor="#B8E5FA";
-        else if(str == "R Planes") this.style.borderLeftColor="#d9d9d9";
+        if(str == "C Planes") this.style.borderLeftColor=colors.c.toString(16);
+        else if(str == "A Planes") this.style.borderLeftColor=colors.a.toString(16);
+        else if(str == "M Planes") this.style.borderLeftColor=colors.m.toString(16);
+        else if(str == "R Planes") this.style.borderLeftColor=colors.r.toString(16);
         else this.style.borderLeftWidth = 0;
     });
     
     $( ".property-name" ).each( function()  {
         var str = $(this).text();
-        if(str == "C Axis") this.style.color="#FFFFCC";
-        else if(str == "A Axis") this.style.color="#A1D5B2";
-        else if(str == "M Axis") this.style.color="#B8E5FA";
-        else if(str == "R Axis") this.style.color="#d9d9d9";
-        else if(str == "Crystollographic") this.style.color="white";
+        if(str == "C Axis") this.style.color=colors.c.toString(16);
+        else if(str == "A Axis") this.style.color=colors.a.toString(16);
+        else if(str == "M Axis") this.style.color=colors.m.toString(16);
+        else if(str == "R Axis") this.style.color=colors.r.toString(16);
+        else if(str == "Crystollographic") this.style.color="black";
     });
 }
         
