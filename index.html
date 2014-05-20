@@ -630,7 +630,7 @@ function make_gui() {
   
     cPlanesVisible.push( cPlanesGUI.add( parameters, 'c2PlaneVisible' ).name('(0001\u0305)').listen() );
 	cPlanesVisible[1].onChange(function(value) 
-	   {   if(value) scene.add( cPlaneMesh[1] ); else scene.remove(cPlaneMesh[0]); });
+	   {   if(value) scene.add( cPlaneMesh[1] ); else scene.remove(cPlaneMesh[1]); });
     
   var allA = aPlanesGUI.add( parameters, 'allA' ).name('All {112\u03050}').listen();
 	allA.onChange(function(value) 
@@ -676,11 +676,11 @@ function make_gui() {
         
         });
                   
-    mPlanesVisible.push( mPlanesGUI.add( parameters, 'm1PlaneVisible' ).name('(101\u03050)').listen() );
+    mPlanesVisible.push( mPlanesGUI.add( parameters, 'm1PlaneVisible' ).name('(1 0 1\u0305 0)').listen() );
 	mPlanesVisible[0].onChange(function(value) 
 	   {   if(value) scene.add( mPlaneMesh[0] ); else scene.remove(mPlaneMesh[0]); });
     
-    mPlanesVisible.push( mPlanesGUI.add( parameters, 'm2PlaneVisible' ).name('(011\u03050)').listen() );
+    mPlanesVisible.push( mPlanesGUI.add( parameters, 'm2PlaneVisible' ).name('(0 1 1\u0305 0)').listen() );
 	mPlanesVisible[1].onChange(function(value) 
 	   {   if(value) scene.add( mPlaneMesh[1] ); else scene.remove(mPlaneMesh[1]); });
     
