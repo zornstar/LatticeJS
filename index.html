@@ -782,7 +782,7 @@ function toggleAxis(value) {
 
 function changeGUIColors() {
     $( ".boolean" ).each( function()  {
-        var title = $(this).parent().children(".title");
+        var title = $(this).parent().children(".title")[0];
         console.log(title);
         title.style.color = "black";
         title.style.textShadow = "0 0 0 #111";
