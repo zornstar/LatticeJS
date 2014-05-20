@@ -664,7 +664,7 @@ function make_gui() {
     
     aPlanesVisible.push( aPlanesGUI.add( parameters, 'a6PlaneVisible' ).name('(112\u03050)').listen() );
 	aPlanesVisible[5].onChange(function(value) 
-	   {   if(value) scene.add( aPlaneMesh[5] ); else scene.remove(mPlaneMesh[5]); });
+	   {   if(value) scene.add( aPlaneMesh[5] ); else scene.remove(aPlaneMesh[5]); });
     
   var allM = mPlanesGUI.add( parameters, 'allM' ).name('All {101\u03050}').listen();
 	allM.onChange(function(value) 
