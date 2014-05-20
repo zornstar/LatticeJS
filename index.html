@@ -680,7 +680,7 @@ function make_gui() {
 	mPlanesVisible[0].onChange(function(value) 
 	   {   if(value) scene.add( mPlaneMesh[0] ); else scene.remove(mPlaneMesh[0]); });
     
-    mPlanesVisible.push( mPlanesGUI.add( parameters, 'm2PlaneVisible' ).name('(0 1 1\u0305 0)').listen() );
+    mPlanesVisible.push( mPlanesGUI.add( parameters, 'm2PlaneVisible' ).name('(011\u03050)').listen() );
 	mPlanesVisible[1].onChange(function(value) 
 	   {   if(value) scene.add( mPlaneMesh[1] ); else scene.remove(mPlaneMesh[1]); });
     
@@ -789,8 +789,8 @@ function changeGUIColors() {
         else if(str == "R Planes") this.style.borderLeftColor=colorStrings.r;
         else this.style.borderLeftWidth = 0;
         
-        this.style.fontFamily = "Times New Roman";
-        this.style.fontSize = "12 pt";
+       // this.style.fontFamily = "Times New Roman";
+       // this.style.fontSize = "12 pt";
     });
     
     $( ".property-name" ).each( function()  {
@@ -801,8 +801,8 @@ function changeGUIColors() {
         else if(str == "R Axis") this.style.color=colorStrings.r;
         else if(str == "Crystollographic") this.style.color="white";
         
-         this.style.fontFamily = "Times New Roman";
-         this.style.fontSize = "12 pt";
+       //  this.style.fontFamily = "Times New Roman";
+        // this.style.fontSize = "12 pt";
     });
 }
         
