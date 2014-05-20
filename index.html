@@ -646,7 +646,7 @@ function make_gui() {
 	aPlanesVisible[0].onChange(function(value) 
 	   {   if(value) scene.add( aPlaneMesh[0] ); else scene.remove(aPlaneMesh[0]); });
     
-    aPlanesVisible.push( aPlanesGUI.add( parameters, 'a2PlaneVisible' ).name('(2<span style="text-decoration:overline">1</span>10)').listen() );
+    aPlanesVisible.push( aPlanesGUI.add( parameters, 'a2PlaneVisible' ).name('(<span style="text-decoration:overline">2</span>110)').listen() );
 	aPlanesVisible[1].onChange(function(value) 
 	   {   if(value) scene.add( aPlaneMesh[1] ); else scene.remove(aPlaneMesh[1]); });
     
@@ -710,7 +710,7 @@ function make_gui() {
         
         });
                   
-    rPlanesVisible.push( rPlanesGUI.add( parameters, 'r1PlaneVisible' ).name('(<span style="text-decoration:overline">1</span>102)').listen() );
+    rPlanesVisible.push( rPlanesGUI.add( parameters, 'r1PlaneVisible' ).name('(1<span style="text-decoration:overline">1</span>02)').listen() );
 	rPlanesVisible[0].onChange(function(value) 
 	   {   if(value) scene.add( rPlaneMesh[0] ); else scene.remove(rPlaneMesh[0]); });
     
@@ -722,7 +722,7 @@ function make_gui() {
 	rPlanesVisible[2].onChange(function(value) 
 	   {   if(value) scene.add( rPlaneMesh[2] ); else scene.remove(rPlaneMesh[2]); });
     
-    rPlanesVisible.push( rPlanesGUI.add( parameters, 'r4PlaneVisible' ).name('(1<span style="text-decoration:overline">1</span>02)').listen() );
+    rPlanesVisible.push( rPlanesGUI.add( parameters, 'r4PlaneVisible' ).name('(<span style="text-decoration:overline">1</span>102)').listen() );
 	rPlanesVisible[3].onChange(function(value) 
 	   {   if(value) scene.add( rPlaneMesh[3] ); else scene.remove(rPlaneMesh[3]); });
     
@@ -784,10 +784,14 @@ function changeGUIColors() {
     $( ".boolean" ).each( function()  {
         var title = $(this).parent().children(".title")[0];
         console.log(title);
-        title.style.color = "black";
+        
         title.style.textShadow = "0 0 0 #111";
         
         var str = title.innerHTML;
+        
+        if(str != "Axes") {
+        	title.style.color = "black";
+        }
         
         if(str == "C Planes") {
         	this.style.borderLeftColor=colorStrings.c;
