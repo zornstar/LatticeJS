@@ -782,11 +782,30 @@ function toggleAxis(value) {
 
 function changeGUIColors() {
     $( ".boolean" ).each( function()  {
-        var str = $(this).parent().children(".title").text();
-        if(str == "C Planes") this.style.borderLeftColor=colorStrings.c;
-        else if(str == "A Planes") this.style.borderLeftColor=colorStrings.a;
-        else if(str == "M Planes") this.style.borderLeftColor=colorStrings.m;
-        else if(str == "R Planes") this.style.borderLeftColor=colorStrings.r;
+        var title = $(this).parent().children(".title");
+        title.style.color = "black";
+        title.style.textShadow = "0 0 0 #111";
+        
+        var str = title.text();
+        
+        if(str == "C Planes") {
+        	this.style.borderLeftColor=colorStrings.c;
+        	title.style.backgroundColor = colorStrings.c;
+        	
+        }
+        else if(str == "A Planes") {
+        	this.style.borderLeftColor=colorStrings.a;
+        	title.style.backgroundColor = colorStrings.a;
+        }
+        else if(str == "M Planes") {
+        	this.style.borderLeftColor=colorStrings.m;
+        	title.style.backgroundColor = colorStrings.m;
+        }
+        else if(str == "R Planes") {
+        	this.style.borderLeftColor=colorStrings.r;
+        	title.style.backgroundColor = colorStrings.r;
+        }
+        
         else this.style.borderLeftWidth = 0;
         
        // this.style.fontFamily = "Times New Roman";
