@@ -34,6 +34,13 @@ var colors = {
 	m: 0x82D2FA,
 	r: 0xC8C8C8
 }
+
+var colorStrings = {
+	a: "#8BCBA0",
+	c: "#FFFF8C",
+	m: "#82D2FA",
+	r: "#C8C8C8"
+}
         
 //setup GUI    
 gui = make_gui();
@@ -776,19 +783,19 @@ function toggleAxis(value) {
 function changeGUIColors() {
     $( ".boolean" ).each( function()  {
         var str = $(this).parent().children(".title").text();
-        if(str == "C Planes") this.style.borderLeftColor=colors.c.toString(16);
-        else if(str == "A Planes") this.style.borderLeftColor=colors.a.toString(16);
-        else if(str == "M Planes") this.style.borderLeftColor=colors.m.toString(16);
-        else if(str == "R Planes") this.style.borderLeftColor=colors.r.toString(16);
+        if(str == "C Planes") this.style.borderLeftColor=colorStrings.c;
+        else if(str == "A Planes") this.style.borderLeftColor=colorStrings.a;
+        else if(str == "M Planes") this.style.borderLeftColor=colorStrings.m;
+        else if(str == "R Planes") this.style.borderLeftColor=colorStrings.r;
         else this.style.borderLeftWidth = 0;
     });
     
     $( ".property-name" ).each( function()  {
         var str = $(this).text();
-        if(str == "C Axis") this.style.color=colors.c.toString(16);
-        else if(str == "A Axis") this.style.color=colors.a.toString(16);
-        else if(str == "M Axis") this.style.color=colors.m.toString(16);
-        else if(str == "R Axis") this.style.color=colors.r.toString(16);
+        if(str == "C Axis") this.style.color=colorStrings.c;
+        else if(str == "A Axis") this.style.color=colorStrings.a;
+        else if(str == "M Axis") this.style.color=colorStrings.m;
+        else if(str == "R Axis") this.style.color=colorStrings.r;
         else if(str == "Crystollographic") this.style.color="black";
     });
 }
