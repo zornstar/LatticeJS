@@ -676,7 +676,7 @@ function make_gui() {
         
         });
                   
-    mPlanesVisible.push( mPlanesGUI.add( parameters, 'm1PlaneVisible' ).name('(1 0 1\u0305 0)').listen() );
+    mPlanesVisible.push( mPlanesGUI.add( parameters, 'm1PlaneVisible' ).name('(10<span style="text-decoration:overline">1</span>0)').listen() );
 	mPlanesVisible[0].onChange(function(value) 
 	   {   if(value) scene.add( mPlaneMesh[0] ); else scene.remove(mPlaneMesh[0]); });
     
